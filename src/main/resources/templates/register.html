@@ -45,30 +45,31 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user">
+                            <form action="/create-user" class="user" id="userForm" method="post">
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
+                                            placeholder="First Name" name="first_name">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
+                                            placeholder="Last Name" name="last_name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                        placeholder="Email Address" name="email">
                                 </div>
+                                <input type="hidden" id="selectedRole" name="role" />
                                 <div class="dropdown mb-4">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Role
                                     </button>
                                     <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#" data-role="Laboratory Director">Laboratory Director</a>
-                                        <a class="dropdown-item" href="#" data-role="Professor">Professor</a>
-                                        <a class="dropdown-item" href="#" data-role="PhD Student">PhD Student</a>
+                                        <a class="dropdown-item role-option" href="#" data-role="Laboratory Director">Laboratory Director</a>
+                                        <a class="dropdown-item role-option" href="#" data-role="Professor">Professor</a>
+                                        <a class="dropdown-item role-option" href="#" data-role="PhD Student">PhD Student</a>
                                     </div>
                                 </div>
                                 
@@ -76,16 +77,16 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                            id="exampleInputPassword" placeholder="Password" name="password">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
                                             id="exampleRepeatPassword" placeholder="Repeat Password">
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account
-                                </a>
+                                </button>
                                 <!--
                                     <hr>
                                     <a href="index.html" class="btn btn-google btn-user btn-block">
@@ -128,6 +129,47 @@
                 const selectedRole = this.getAttribute('data-role');
                 const dropdownButton = document.getElementById('dropdownMenuButton');
                 dropdownButton.textContent = selectedRole;
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const roleOptions = document.querySelectorAll('.role-option');
+            const selectedRoleInput = document.getElementById('selectedRole');
+
+            roleOptions.forEach(function(option) {
+                option.addEventListener('click', function(event) {
+                    const selectedRole = event.target.getAttribute('data-role');
+                    selectedRoleInput.value = selectedRole;
+                    document.getElementById('dropdownMenuButton').innerText = selectedRole;
+                });
+            });
+        });
+    </script>
+    <script>
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            console.log("IN FORM SCRIPT");
+            let data = JSON.stringify({
+                    first_name: document.getElementById("exampleFirstName").value,
+                    last_name: document.getElementById("exampleLastName").value,
+                    email: document.getElementById("exampleInputEmail").value,
+                    role: document.getElementById("selectedRole").value,
+                    password: document.getElementById("exampleInputPassword").value
+                });
+            console.log(data);
+            fetch("/create-user", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                method: "POST",
+                body: data
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
             });
         });
     </script>

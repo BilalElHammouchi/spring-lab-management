@@ -1,8 +1,8 @@
 package com.example.LabManagementApplication.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.LabManagementApplication.model.User;
+import com.example.LabManagementApplication.model.Users;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    // Spring Data JPA will provide CRUD methods
+public interface UserRepository extends JpaRepository<Users, Long> {
+    
 }
