@@ -153,9 +153,14 @@
         document.getElementById("userForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const password = document.getElementById("exampleInputPassword").value;
+            const confirmPassword = document.getElementById("exampleRepeatPassword").value;
             const passwordStrength = zxcvbn(password);
             if (passwordStrength.score < 2) {
                 alert("Password is too weak!");
+                return;
+            }
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
                 return;
             }
             let data = JSON.stringify({
@@ -163,7 +168,7 @@
                     last_name: document.getElementById("exampleLastName").value,
                     email: document.getElementById("exampleInputEmail").value,
                     role: document.getElementById("selectedRole").value,
-                    password: document.getElementById("exampleInputPassword").value
+                    password: password
                 });
             console.log(data);
             fetch("/create-user", {
