@@ -28,11 +28,11 @@
             margin: 0;
         }
         .password-feedback {
-            height: 1.5rem; /* Adjust the height as needed */
-            margin-top: 0.5rem; /* Add margin for spacing */
+            height: 1.5rem;
+            margin-top: 0.5rem;
         }
     </style>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
 </head>
 
 <body class="bg-gradient-primary">
@@ -152,7 +152,12 @@
     <script>
         document.getElementById("userForm").addEventListener("submit", function(event) {
             event.preventDefault();
-            console.log("IN FORM SCRIPT");
+            const password = document.getElementById("exampleInputPassword").value;
+            const passwordStrength = zxcvbn(password);
+            if (passwordStrength.score < 2) {
+                alert("Password is too weak!");
+                return;
+            }
             let data = JSON.stringify({
                     first_name: document.getElementById("exampleFirstName").value,
                     last_name: document.getElementById("exampleLastName").value,
@@ -207,52 +212,21 @@
     </script>
     <script>
         const passwordInput = document.getElementById('exampleInputPassword');
-const passwordStrengthFeedback = document.getElementById('password-strength-feedback');
-
-passwordInput.addEventListener('input', function () {
-    const password = passwordInput.value;
-
-    // Define regular expressions for password criteria
-    const minLength = 8; // Minimum password length
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
-
-    // Calculate the password strength
-    let strength = 0;
-    if (password.length >= minLength) {
-        strength += 1;
-    }
-    if (hasUppercase) {
-        strength += 1;
-    }
-    if (hasLowercase) {
-        strength += 1;
-    }
-    if (hasNumber) {
-        strength += 1;
-    }
-    if (hasSpecialChar) {
-        strength += 1;
-    }
-
-    // Provide feedback based on password strength
-    if (password.length === 0) {
-        passwordStrengthFeedback.innerHTML = '';
-    } else if (strength < 3) {
-        passwordStrengthFeedback.innerHTML = '<p class="text-danger">Weak</p>';
-    } else if (strength === 3) {
-        passwordStrengthFeedback.innerHTML = '<p class="text-warning">Moderate</p>';
-    } else {
-        passwordStrengthFeedback.innerHTML = '<p class="text-success">Strong</p>';
-    }
-});
-
-
+        const passwordStrengthFeedback = document.getElementById('password-strength-feedback');
+        passwordInput.addEventListener('input', function () {
+            const password = passwordInput.value;
+            const passwordStrength = zxcvbn(password);
+            console.log(passwordStrength.score);
+            if (password.length === 0) {
+                passwordStrengthFeedback.innerHTML = '';
+            } else if (passwordStrength.score < 2) {
+                passwordStrengthFeedback.innerHTML = '<p class="text-danger">Weak</p>';
+            } else if (passwordStrength.score < 4) {
+                passwordStrengthFeedback.innerHTML = '<p class="text-warning">Moderate</p>';
+            } else {
+                passwordStrengthFeedback.innerHTML = '<p class="text-success">Strong</p>';
+            }
+        });
     </script>
-    
-    
 </body>
-
 </html>
