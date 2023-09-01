@@ -27,6 +27,10 @@
             height: 100vh;
             margin: 0;
         }
+        .password-feedback {
+            height: 1.5rem; /* Adjust the height as needed */
+            margin-top: 0.5rem; /* Add margin for spacing */
+        }
     </style>
 
 </head>
@@ -49,18 +53,18 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name" name="first_name">
+                                            placeholder="First Name" name="first_name" required>
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name" name="last_name">
+                                            placeholder="Last Name" name="last_name" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address" name="email">
+                                        placeholder="Email Address" name="email" required>
                                 </div>
-                                <input type="hidden" id="selectedRole" name="role" />
+                                <input type="hidden" id="selectedRole" name="role" required/>
                                 <div class="dropdown mb-4">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -77,14 +81,15 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password" name="password">
+                                            id="exampleInputPassword" placeholder="Password" name="password" required>
+                                            <div class="password-feedback" id="password-strength-feedback"></div>
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                            id="exampleRepeatPassword" placeholder="Repeat Password" required>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" class="btn btn-primary btn-user btn-block" id="submitButton">
                                     Register Account
                                 </button>
                                 <!--
@@ -173,6 +178,81 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const roleOptions = document.querySelectorAll('.role-option');
+        const selectedRoleInput = document.getElementById('selectedRole');
+        const dropdownButton = document.getElementById('dropdownMenuButton');
+        const submitButton = document.getElementById('submitButton'); // Add this line
+
+        roleOptions.forEach(function(option) {
+            option.addEventListener('click', function(event) {
+                const selectedRole = event.target.getAttribute('data-role');
+                selectedRoleInput.value = selectedRole;
+                
+                if (dropdownButton) {
+                    dropdownButton.innerText = selectedRole;
+                }
+
+                if (submitButton) {
+                    submitButton.disabled = (selectedRole === null || selectedRole.trim() === "");
+                }
+            });
+        });
+
+        if (submitButton) {
+            submitButton.disabled = true;
+        }
+    });
+    </script>
+    <script>
+        const passwordInput = document.getElementById('exampleInputPassword');
+const passwordStrengthFeedback = document.getElementById('password-strength-feedback');
+
+passwordInput.addEventListener('input', function () {
+    const password = passwordInput.value;
+
+    // Define regular expressions for password criteria
+    const minLength = 8; // Minimum password length
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password);
+
+    // Calculate the password strength
+    let strength = 0;
+    if (password.length >= minLength) {
+        strength += 1;
+    }
+    if (hasUppercase) {
+        strength += 1;
+    }
+    if (hasLowercase) {
+        strength += 1;
+    }
+    if (hasNumber) {
+        strength += 1;
+    }
+    if (hasSpecialChar) {
+        strength += 1;
+    }
+
+    // Provide feedback based on password strength
+    if (password.length === 0) {
+        passwordStrengthFeedback.innerHTML = '';
+    } else if (strength < 3) {
+        passwordStrengthFeedback.innerHTML = '<p class="text-danger">Weak</p>';
+    } else if (strength === 3) {
+        passwordStrengthFeedback.innerHTML = '<p class="text-warning">Moderate</p>';
+    } else {
+        passwordStrengthFeedback.innerHTML = '<p class="text-success">Strong</p>';
+    }
+});
+
+
+    </script>
+    
+    
 </body>
 
 </html>
