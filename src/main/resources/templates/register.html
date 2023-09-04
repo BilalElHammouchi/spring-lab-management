@@ -170,7 +170,6 @@
                     role: document.getElementById("selectedRole").value,
                     password: password
                 });
-            console.log(data);
             fetch("/create-user", {
                 headers: {
                     Accept: "application/json",
@@ -221,7 +220,6 @@
         passwordInput.addEventListener('input', function () {
             const password = passwordInput.value;
             const passwordStrength = zxcvbn(password);
-            console.log(passwordStrength.score);
             if (password.length === 0) {
                 passwordStrengthFeedback.innerHTML = '';
             } else if (passwordStrength.score < 2) {
