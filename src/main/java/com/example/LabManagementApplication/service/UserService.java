@@ -1,6 +1,7 @@
 package com.example.LabManagementApplication.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.LabManagementApplication.model.Users;
@@ -21,7 +22,9 @@ public class UserService {
         newUser.setLastName(lastName);
         newUser.setEmail(email);
         newUser.setRole(role);
-        newUser.setPassword(password);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(password);
+        newUser.setPassword(encodedPassword);
 
         return userRepository.save(newUser);
     }
