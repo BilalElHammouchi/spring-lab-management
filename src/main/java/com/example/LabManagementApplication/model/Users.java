@@ -37,11 +37,19 @@ public class Users {
         this.password = password;
     }
 
+    public String getFirstName(){
+        return this.first_name;
+    }
+
     public String getPassword() {
         return this.password;
     }
 
     public String getEmail() {
         return this.email;
+    }
+
+    public String getLastName() {
+        return this.last_name;
     }
 }
