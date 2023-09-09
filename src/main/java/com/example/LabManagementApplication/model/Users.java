@@ -52,4 +52,8 @@ public class Users {
     public String getLastName() {
         return this.last_name;
     }
+
+    public String getRole() {
+        return this.role;
+    }
 }
