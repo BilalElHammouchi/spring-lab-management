@@ -55,20 +55,10 @@
                 Interface
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" th:href="@{/buttons}">Buttons</a>
-                        <a class="collapse-item" th:href="@{/cards}">Cards</a>
-                    </div>
-                </div>
+                <a class="nav-link" th:href="@{/charts}">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Members Management</span></a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
@@ -119,13 +109,6 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/charts}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/tables}">
@@ -170,8 +153,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <!--<span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${user.firstName + ' ' + user.lastName}"></span>-->
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="fullName"></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${first_name + ' ' + last_name}"></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -275,32 +257,6 @@
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script>
-        var currentUser = null;
-        fetch('current-user')
-        .then(response => {
-            if (!response.ok) {
-            throw new Error(`Request failed with status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            currentUser = data;
-            const fullNameSpan = document.getElementById("fullName");
-            console.log(currentUser);
-            if (fullNameSpan) {
-                fullNameSpan.textContent = currentUser['firstName'] + ' ' + currentUser['lastName'];
-            }
-            currentUser = data;
-            const roleSpan = document.getElementById("role");
-            if (roleSpan) {
-                roleSpan.textContent = currentUser['role'];
-            }
-        })
-        .catch(error => {
-            console.error('Error retrieving user information', error);
-        });
-    </script>
 </body>
 
 </html>
