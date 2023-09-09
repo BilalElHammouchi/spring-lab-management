@@ -155,7 +155,7 @@
             const password = document.getElementById("exampleInputPassword").value;
             const confirmPassword = document.getElementById("exampleRepeatPassword").value;
             const passwordStrength = zxcvbn(password);
-            if (passwordStrength.score < 2) {
+            if (passwordStrength.score > 2) {
                 alert("Password is too weak!");
                 return;
             }
