@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.LabManagementApplication.model.Users;
 import com.example.LabManagementApplication.repository.UserRepository;
+import com.example.LabManagementApplication.service.UserService;
 
 
 @Controller
@@ -16,6 +17,13 @@ public class WebController {
 
     @Autowired
     UserRepository userRepository;
+
+    private final UserService userService;
+
+    @Autowired
+    public WebController(UserService userService) {
+        this.userService = userService;
+    }
 
     private void addAttributes(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -33,6 +41,12 @@ public class WebController {
         return "index";
     }
 
+    @GetMapping("/")
+    public String homepage(Model model) {
+        addAttributes(model);
+        return "index";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -41,6 +55,10 @@ public class WebController {
     @GetMapping("/membersManagement")
     public String membersManagement(Model model) {
         addAttributes(model);
+        model.addAttribute("members", userService.getAllEntities());
+        for (Users users : userService.getAllEntities()) {
+            System.out.println(users.getFirstName()+" "+users.getLastName()+" "+users.getEmail());
+        }
         return "membersManagement";
     }
 

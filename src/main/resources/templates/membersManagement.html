@@ -19,6 +19,40 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .intro {
+            height: 70%;
+        }
+
+        table td,
+        table th {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        thead th {
+            color: #fff;
+        }
+
+        .card {
+            border-radius: .5rem;
+        }
+
+        .table-scroll {
+            border-radius: .5rem;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .table-scroll table thead th {
+            font-size: 1.25rem;
+        }
+        thead {
+            top: 0;
+            position: sticky;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -147,11 +181,50 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Members Management</h1>
                     </div>
 
                 </div>
                 <!-- /.container-fluid -->
+
+                <section class="intro">
+                    <div class="bg-image h-100" style="background-color: #f5f7fa;">
+                      <div class="mask d-flex align-items-center h-100">
+                        <div class="container">
+                          <div class="row justify-content-center">
+                            <div class="col-12">
+                              <div class="card">
+                                <div class="card-body p-0">
+                                  <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                    <table class="table table-striped mb-0">
+                                      <thead style="background-color: #002d72;">
+                                        <tr>
+                                          <th scope="col">Email</th>
+                                          <th scope="col">First Name</th>
+                                          <th scope="col">Last Name</th>
+                                          <th scope="col">Role</th>
+                                          <th scope="col">Edit</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr th:each="member : ${members}">
+                                            <td th:text="${member.getEmail()}"></td>
+                                            <td th:text="${member.getFirstName()}"></td>
+                                            <td th:text="${member.getLastName()}"></td>
+                                            <td th:text="${member.getRole()}"></td>
+                                            <td></td>
+                                         </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
 
             </div>
             <!-- End of Main Content -->
