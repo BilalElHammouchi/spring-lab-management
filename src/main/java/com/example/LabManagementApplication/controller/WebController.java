@@ -1,5 +1,9 @@
 package com.example.LabManagementApplication.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,10 +59,14 @@ public class WebController {
     @GetMapping("/membersManagement")
     public String membersManagement(Model model) {
         addAttributes(model);
-        model.addAttribute("members", userService.getAllEntities());
-        for (Users users : userService.getAllEntities()) {
-            System.out.println(users.getFirstName()+" "+users.getLastName()+" "+users.getEmail());
+        List<Users> members = new ArrayList<Users>();
+        for (Users user : userService.getAllEntities()) {
+            System.out.print(user.getRole());
+            if (!user.getRole().contains("admin")) {
+                members.add(user);
+            }
         }
+        model.addAttribute("members", members);
         return "membersManagement";
     }
 
