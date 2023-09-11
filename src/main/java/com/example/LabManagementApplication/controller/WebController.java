@@ -17,8 +17,7 @@ public class WebController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/index")
-    public String index(Model model) {
+    private void addAttributes(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         Users user = userRepository.findbyEmail(username);
@@ -26,12 +25,47 @@ public class WebController {
         model.addAttribute("last_name", user.getLastName());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("role", user.getRole());
+    }
+
+    @GetMapping("/index")
+    public String index(Model model) {
+        addAttributes(model);
         return "index";
     }
 
     @GetMapping("/login")
     public String login() {
         return "login";
+    }
+
+    @GetMapping("/membersManagement")
+    public String membersManagement(Model model) {
+        addAttributes(model);
+        return "membersManagement";
+    }
+
+    @GetMapping("/projectManagement")
+    public String projectManagement(Model model) {
+        addAttributes(model);
+        return "projectManagement";
+    }
+
+    @GetMapping("/publicationManagement")
+    public String publicationManagement(Model model) {
+        addAttributes(model);
+        return "publicationManagement";
+    }
+
+    @GetMapping("/resourceManagement")
+    public String resourceManagement(Model model) {
+        addAttributes(model);
+        return "resourceManagement";
+    }
+
+    @GetMapping("/roleManagement")
+    public String roleManagement(Model model) {
+        addAttributes(model);
+        return "roleManagement";
     }
 
     @GetMapping("/register")
