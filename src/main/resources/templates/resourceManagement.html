@@ -41,7 +41,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" th:href="@{/index}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -73,7 +73,7 @@
                     <span>Publication Management</span></a>
             </li>
 
-            <li class="nav-item" th:if="${role == 'admin'}">
+            <li class="nav-item active" th:if="${role == 'admin'}">
                 <a class="nav-link" th:href="@{/resourceManagement}">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Resource Management</span></a>
