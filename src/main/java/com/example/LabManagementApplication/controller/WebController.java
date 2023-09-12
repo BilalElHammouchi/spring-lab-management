@@ -61,7 +61,6 @@ public class WebController {
         addAttributes(model);
         List<Users> members = new ArrayList<Users>();
         for (Users user : userService.getAllEntities()) {
-            System.out.print(user.getRole());
             if (!user.getRole().contains("admin")) {
                 members.add(user);
             }
