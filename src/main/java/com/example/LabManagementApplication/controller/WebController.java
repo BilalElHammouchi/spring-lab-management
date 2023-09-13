@@ -3,6 +3,8 @@ package com.example.LabManagementApplication.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -10,10 +12,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.LabManagementApplication.model.Users;
 import com.example.LabManagementApplication.repository.UserRepository;
 import com.example.LabManagementApplication.service.UserService;
+import com.example.LabManagementApplication.web.UserRequest;
 
 
 @Controller
@@ -27,6 +33,18 @@ public class WebController {
     @Autowired
     public WebController(UserService userService) {
         this.userService = userService;
+    }
+
+    @PostMapping("/addMember")
+    public String addMember(@ModelAttribute("user") Users user) {
+        userService.createUser(
+            user.getFirstName(),
+            user.getLastName(),
+            user.getEmail(),
+            user.getRole(),
+            user.getPassword()
+        );
+        return "redirect:/membersManagement";
     }
 
     private void addAttributes(Model model){
@@ -66,6 +84,7 @@ public class WebController {
             }
         }
         model.addAttribute("members", members);
+        model.addAttribute("user", new Users());
         return "membersManagement";
     }
 
