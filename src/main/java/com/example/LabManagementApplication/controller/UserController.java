@@ -1,12 +1,17 @@
 package com.example.LabManagementApplication.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,10 +51,30 @@ public class UserController {
     }
 
     @PostMapping("/deleteMember")
-    public RedirectView deleteUser(@RequestParam("userEmail") String userEmail) {
-        Users userToDelete = userRepository.findbyEmail(userEmail);
+    public RedirectView deleteUser(@RequestParam("userId") Long userId) {
+        Optional<Users> userToDelete = userRepository.findById(userId);
 
-        userRepository.delete(userToDelete);
+        if(userToDelete.isPresent()){
+            userRepository.deleteById(userId);
+        }
+
+        return new RedirectView("membersManagement");
+    }
+
+    @PostMapping("/editMember")
+    public RedirectView editUser(@ModelAttribute("user") Users user) {
+        System.out.println("EDIT");
+        System.out.println(user.getFirstName());
+        System.out.println(user.getLastName());
+        System.out.println(user.getEmail());
+        System.out.println(user.getRole());
+        System.out.println(user.getId());
+        Users userToUpdate = userRepository.findById(user.getId()).get();
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setLastName(user.getLastName());
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setRole(user.getRole());
+        userService.updateUser(userToUpdate);
 
         return new RedirectView("membersManagement");
     }
@@ -66,6 +91,19 @@ public class UserController {
 
         return new RedirectView("membersManagement");
     }
+
+    @GetMapping("/getUserById/{id}")
+    public ResponseEntity<Users> getUserById(@PathVariable Long id) {
+        Optional<Users> user = userRepository.findById(id);
+        
+        if (user.isPresent()) {
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 
     public void authWithHttpServletRequest(HttpServletRequest request, String username, String password) {
         try {
