@@ -307,14 +307,18 @@
                                             <td th:text="${member.getFirstName()}"></td>
                                             <td th:text="${member.getLastName()}"></td>
                                             <td th:text="${member.getRole()}"></td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" th:attr="onclick='openEditModal(\'' + ${member.getId()} + '\')'">
-                                                    Edit
-                                                </button>
-                                                <form th:action="@{/deleteMember}" method="post">
-                                                    <input type="hidden" th:name="userId" th:value="${member.getId()}" />
-                                                    <button type="submit" class="btn btn-danger" onclick="refreshPage()">Delete</button>
-                                                </form>
+                                            <td style="vertical-align: middle;">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary btn-sm rounded" th:attr="onclick='openEditModal(\'' + ${member.getId()} + '\')'" style="margin-right: 10px;">
+                                                        Edit
+                                                    </button>
+                                                    <form th:action="@{/deleteMember}" method="post">
+                                                        <input type="hidden" th:name="userId" th:value="${member.getId()}" />
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="refreshPage()">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </td>
                                          </tr>
                                       </tbody>
