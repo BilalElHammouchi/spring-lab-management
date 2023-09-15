@@ -35,17 +35,6 @@ public class WebController {
         this.userService = userService;
     }
 
-    @PostMapping("/addMember")
-    public String addMember(@ModelAttribute("user") Users user) {
-        userService.createUser(
-            user.getFirstName(),
-            user.getLastName(),
-            user.getEmail(),
-            user.getRole(),
-            user.getPassword()
-        );
-        return "redirect:/membersManagement";
-    }
 
     private void addAttributes(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
