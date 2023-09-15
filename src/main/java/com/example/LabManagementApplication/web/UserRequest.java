@@ -3,6 +3,9 @@ package com.example.LabManagementApplication.web;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserRequest {
+
+    private Long id;
+
     @JsonProperty("first_name")
     private String firstName;
 
@@ -13,8 +16,18 @@ public class UserRequest {
     private String role;
     private String password;
 
+
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setFirstName(String firstName) {

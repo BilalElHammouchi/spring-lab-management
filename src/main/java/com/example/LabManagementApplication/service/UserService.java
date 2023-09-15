@@ -2,6 +2,8 @@ package com.example.LabManagementApplication.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,21 @@ public class UserService {
         newUser.setPassword(encodedPassword);
 
         return userRepository.save(newUser);
+    }
+
+    public void updateUser(Users user) {
+
+        Users existingUser = userRepository.findById(user.getId()).orElse(null);
+
+        if (existingUser != null) {
+            existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setRole(user.getRole());
+            userRepository.save(existingUser);
+        } else {
+            throw new EntityNotFoundException("User with ID " + user.getId() + " not found");
+        }
     }
 
     public List<Users> getAllEntities() {
