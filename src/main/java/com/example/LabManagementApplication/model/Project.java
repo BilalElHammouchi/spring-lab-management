@@ -1,5 +1,6 @@
 package com.example.LabManagementApplication.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +29,7 @@ public class Project {
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date endDate;
+
 
     private String status;
 
@@ -81,7 +83,8 @@ public class Project {
     }
 
     public String getStartDateString() {
-        return this.startDate.toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(this.startDate);
     }
 
     public Date getEndDate() {
@@ -89,7 +92,8 @@ public class Project {
     }
 
     public String getEndDateString() {
-        return this.endDate.toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return dateFormat.format(this.endDate);
     }
 
     public String getStatus() {
