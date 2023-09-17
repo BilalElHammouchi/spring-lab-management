@@ -1,9 +1,15 @@
 package com.example.LabManagementApplication.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 
 @Entity
@@ -16,6 +22,14 @@ public class Users {
     private String email;
     private String role;
     private String password;
+
+    @ManyToMany
+    @JoinTable(
+        name = "project_user",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "project_id")
+    )
+    private Set<Project> projects = new HashSet<>();
 
     public void setId(long id){
         this.id = id;
