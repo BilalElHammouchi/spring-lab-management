@@ -8,12 +8,14 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -43,6 +45,10 @@ public class Project {
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<Users> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Publication> publications;
 
 
     public void setId(long id){

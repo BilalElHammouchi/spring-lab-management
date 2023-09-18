@@ -2,11 +2,14 @@ package com.example.LabManagementApplication.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -22,6 +25,10 @@ public class Users {
 
     @ManyToMany(mappedBy = "users")
     Set<Project> projects;
+
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Publication> publications;
 
     public void setId(long id){
         this.id = id;
