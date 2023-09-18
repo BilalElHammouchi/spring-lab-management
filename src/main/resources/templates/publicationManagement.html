@@ -351,16 +351,16 @@
                                 <div class="form-group">
                                     <label for="project">Project:</label>
                                     <input type="hidden" id="projectIdEdit" name="projectIdEdit">
-                                    <select class="form-control" id="project_" onchange="handleProjectChange()" required>
+                                    <select class="form-control" id="projectEdit_" onchange="handleProjectEditChange()" required>
                                         <option th:each="project : ${projects}" th:value="${project}" th:data-project-id="${project.getId()}"
                                             th:text="${project.getTitle()}"></option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="author">Author:</label>
+                                    <label for="authorEdit">Author:</label>
                                     <input type="hidden" id="authorIdEdit" name="authorIdEdit">
-                                    <select class="form-control" id="author" onchange="handleAuthorChange()" required>
-                                        <option th:each="member : ${members}" th:value="${member.getId()}"
+                                    <select class="form-control" id="authorEdit" onchange="handleAuthorEditChange()" required>
+                                        <option th:each="member : ${members}" th:value="${member.getId()}" th:data-member-id="${member.getId()}"
                                             th:text="${member.getFirstName()+' '+member.getLastName()}">
                                         </option>
                                     </select>
@@ -440,13 +440,34 @@
                 type: "GET",
                 contentType: "application/json",
                 success: function(data) {
-                    console.log(data);
-                    $('#idEdit').val(data.id);
-                    $('#titleEdit').val(data.title);
-                    $('#descriptionEdit').val(data.description);
-                    $('#headerEdit').val(data.header);
-                    var publicationDate = new Date(data.publicationDate);
+                    $('#idEdit').val(data.publication.id);
+                    $('#titleEdit').val(data.publication.title);
+                    $('#descriptionEdit').val(data.publication.description);
+                    $('#headerEdit').val(data.publication.header);
+                    var publicationDate = new Date(data.publication.publicationDate);
                     $("#publicationDateEdit").datepicker("setDate", publicationDate);
+                    var selectProjectEdit = document.getElementById("projectEdit_");
+                    for (var i = 0; i < selectProjectEdit.options.length; i++) {
+                        var option = selectProjectEdit.options[i];
+                        var optionProjectId = option.getAttribute("data-project-id");
+                        if (optionProjectId == data.projectId) {
+                            option.selected = true;
+                            break;
+                        }
+                    }
+                    handleProjectEditChange();
+                    setTimeout(function() {
+                        var selectAuthorEdit = document.getElementById("authorEdit");
+                        for (var i = 0; i < selectAuthorEdit.length; i++) {
+                            var option = selectAuthorEdit.options[i];
+                            var optionAuthorId = option.value;
+                            if (optionAuthorId == data.authorId) {
+                                option.selected = true;
+                                selectAuthorEdit.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    }, 100);
                     $('#editModal').modal('show');
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
@@ -464,7 +485,6 @@
             var selectedOption = selectElement.options[selectElement.selectedIndex];
             var memberId = selectedOption.value;
             var hiddenInput = document.getElementById("authorId");
-            console.log(memberId);
             hiddenInput.value = memberId;
         }
     </script>
@@ -478,6 +498,36 @@
             var hiddenInput = document.getElementById("projectId");
             hiddenInput.value = projectId;
             var selectAuthor = document.getElementById("author");
+            $.ajax({
+                url: "/getUsersByProjectId/" + projectId,
+                type: "GET",
+                contentType: "application/json",
+                success: function(data) {
+                    for (a in selectAuthor.options) { selectAuthor.options.remove(0); }
+                    data.forEach(element => {
+                        var opt = document.createElement('option');
+                        opt.value = element.id;
+                        opt.innerHTML = element.firstName+' '+element.lastName;
+                        opt.selected = true;
+                        selectAuthor.appendChild(opt);
+                    });
+                    selectAuthor.selectedIndex = -1;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error: " + textStatus, errorThrown);
+                }
+            });
+        }
+    </script>
+    <script>
+        function handleProjectEditChange() {
+            var selectElement = document.getElementById("projectEdit_");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var projectId = selectedOption.getAttribute("data-project-id");
+            var projectObject = selectedOption.value;
+            var hiddenInput = document.getElementById("projectIdEdit");
+            hiddenInput.value = projectId;
+            var selectAuthor = document.getElementById("authorEdit");
             $.ajax({
                 url: "/getUsersByProjectId/" + projectId,
                 type: "GET",
