@@ -69,9 +69,10 @@ public class WebController {
         addAttributes(model);
         List<Users> members = new ArrayList<Users>();
         for (Users user : userService.getAllEntities()) {
-            if (!user.getRole().contains("admin")) {
+            // Uncomment to hide admins from members table
+            // if (!user.getRole().contains("admin")) {
                 members.add(user);
-            }
+            //}
         }
         model.addAttribute("members", members);
         model.addAttribute("user", new Users());
@@ -91,10 +92,9 @@ public class WebController {
     public String publicationManagement(Model model) {
         addAttributes(model);
         model.addAttribute("publications", publicationService.getAllEntities());
-        model.addAttribute("members", userService.getAllEntities());
+        model.addAttribute("members", new ArrayList<Users>());
         model.addAttribute("projects", projectService.getAllEntities());
         model.addAttribute("publication", new Publication());
-        System.out.println(publicationService.getAllEntities());
         return "publicationManagement";
     }
 

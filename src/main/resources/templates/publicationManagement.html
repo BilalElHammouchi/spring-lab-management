@@ -205,7 +205,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form id="addPublicationForm" th:action="@{/addPublication}" th:object="${publication}" method="post" enctype="application/x-www-form-urlencoded">
+                            <form id="addPublicationForm" th:action="@{/addPublication}" th:object="${publication}" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="title">Title:</label>
                                     <input type="text" th:field="*{title}" class="form-control" id="title" name="title" required>
@@ -216,7 +216,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description:</label>
-                                    <input type="text" th:field="*{description}" class="form-control" id="description" name="description" required>
+                                    <textarea th:field="*{description}" class="form-control" id="description" name="description" rows="4" cols="50" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="publicationDate">Publication Date:</label>
@@ -230,18 +230,24 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="project">Project:</label>
-                                    <select class="form-control" id="project" th:field="*{project}" required>
-                                        <option th:each="project : ${projects}" value="${project.getId()}"
+                                    <input type="hidden" id="projectId" name="projectId">
+                                    <select class="form-control" id="project_" onchange="handleProjectChange()" required>
+                                        <option th:each="project : ${projects}" th:value="${project}" th:data-project-id="${project.getId()}"
                                             th:text="${project.getTitle()}"></option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="author">Author:</label>
-                                    <select class="form-control" id="author" th:field="*{author}" required>
+                                    <input type="hidden" id="authorId" name="authorId">
+                                    <select class="form-control" id="author" onchange="handleAuthorChange()" required>
                                         <option th:each="member : ${members}" th:value="${member.getId()}"
                                             th:text="${member.getFirstName()+' '+member.getLastName()}">
                                         </option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Image">Image:</label>
+                                    <input type="file" name="image" accept="image/*" id="image" class="form-control-file">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -407,6 +413,46 @@
         }
         function hideEditModal(){
             $('#editModal').modal('hide');
+        }
+    </script>
+    <script>
+        function handleAuthorChange() {
+            var selectElement = document.getElementById("author");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var memberId = selectedOption.value;
+            var hiddenInput = document.getElementById("authorId");
+            console.log(memberId);
+            hiddenInput.value = memberId;
+        }
+    </script>
+    <script>
+        document.getElementById("project_").selectedIndex = -1;
+        function handleProjectChange() {
+            var selectElement = document.getElementById("project_");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var projectId = selectedOption.getAttribute("data-project-id");
+            var projectObject = selectedOption.value;
+            var hiddenInput = document.getElementById("projectId");
+            hiddenInput.value = projectId;
+            var selectAuthor = document.getElementById("author");
+            $.ajax({
+                url: "/getUsersByProjectId/" + projectId,
+                type: "GET",
+                contentType: "application/json",
+                success: function(data) {
+                    for (a in selectAuthor.options) { selectAuthor.options.remove(0); }
+                    data.forEach(element => {
+                        var opt = document.createElement('option');
+                        opt.value = element.id;
+                        opt.innerHTML = element.firstName+' '+element.lastName;
+                        selectAuthor.appendChild(opt);
+                    });
+                    selectAuthor.selectedIndex = -1;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error: " + textStatus, errorThrown);
+                }
+            });
         }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

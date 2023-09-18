@@ -27,6 +27,8 @@ public class Project {
 
     @Column(unique = true)
     private String title;
+
+    @Column(length = 8192)
     private String description;
     
     @DateTimeFormat(pattern = "dd-MM-yyyy")
