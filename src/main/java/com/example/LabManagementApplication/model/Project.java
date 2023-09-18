@@ -1,8 +1,10 @@
 package com.example.LabManagementApplication.model;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -121,6 +123,10 @@ public class Project {
 
     public void setUsers(Set<Users> users) {
         this.users = users;
+    }
+
+    public void removeUsers(){
+        getUsers().removeAll(users);
     }
 
 }

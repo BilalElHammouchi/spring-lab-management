@@ -1,414 +1,541 @@
-<!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+    <!DOCTYPE html>
+    <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-<head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>Lab Projects</title>
+        <title>Lab Projects</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
-	<link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+        <link rel="stylesheet" href="css/style.css">
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" defer></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+        <!-- Custom fonts for this template-->
+        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
-    <script src="js/main.js"></script>
+        <!-- Custom styles for this template-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
+        <script src="js/main.js"></script>
 
-    
+        
 
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    <style>
-        .intro {
-            height: 70%;
-        }
+        <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        <style>
+            .intro {
+                height: 70%;
+            }
 
-        table td,
-        table th {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
+            table td,
+            table th {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
 
-        thead th {
-            color: #fff;
-        }
+            thead th {
+                color: #fff;
+            }
 
-        .card {
-            border-radius: .5rem;
-        }
+            .card {
+                border-radius: .5rem;
+            }
 
-        .table-scroll {
-            border-radius: .5rem;
-            max-height: 450px;
-            overflow-y: auto;
-        }
+            .table-scroll {
+                border-radius: .5rem;
+                max-height: 450px;
+                overflow-y: auto;
+            }
 
-        .table-scroll table thead th {
-            font-size: 1.25rem;
-        }
-        thead {
-            top: 0;
-            position: sticky;
-        }
-    </style>
-</head>
+            .table-scroll table thead th {
+                font-size: 1.25rem;
+            }
+            thead {
+                top: 0;
+                position: sticky;
+            }
+        </style>
+    </head>
 
-<body id="page-top">
+    <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/login}">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/login}">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3" th:text="${role}"><sup>2</sup></div>
+                </a>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Manage
                 </div>
-                <div class="sidebar-brand-text mx-3" th:text="${role}"><sup>2</sup></div>
-            </a>
+                
+                <li class="nav-item" th:if="${role == 'admin'}">
+                    <a class="nav-link" th:href="@{/membersManagement}">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Members Management</span></a>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+                <li class="nav-item active" th:if="${role == 'admin'}">
+                    <a class="nav-link" th:href="@{/projectManagement}">
+                        <i class="fas fa-fw fa-pencil-ruler"></i>
+                        <span>Project Management</span></a>
+                </li>
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/index}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+                <li class="nav-item" th:if="${role == 'admin'}">
+                    <a class="nav-link" th:href="@{/publicationManagement}">
+                        <i class="fas fa-fw fa-envelope-square"></i>
+                        <span>Publication Management</span></a>
+                </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <li class="nav-item" th:if="${role == 'admin'}">
+                    <a class="nav-link" th:href="@{/resourceManagement}">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Resource Management</span></a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Manage
-            </div>
-            
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/membersManagement}">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Members Management</span></a>
-            </li>
+                <li class="nav-item" th:if="${role == 'admin'}">
+                    <a class="nav-link" th:href="@{/roleManagement}">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Role Management</span></a>
+                </li>
 
-            <li class="nav-item active" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/projectManagement}">
-                    <i class="fas fa-fw fa-pencil-ruler"></i>
-                    <span>Project Management</span></a>
-            </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
 
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/publicationManagement}">
-                    <i class="fas fa-fw fa-envelope-square"></i>
-                    <span>Publication Management</span></a>
-            </li>
+            </ul>
+            <!-- End of Sidebar -->
 
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/resourceManagement}">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Resource Management</span></a>
-            </li>
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
 
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/roleManagement}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Role Management</span></a>
-            </li>
+                <!-- Main Content -->
+                <div id="content">
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-        </ul>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
 
-                        <div class="topbar-divider d-none d-sm-block"></div>
+                            <div class="topbar-divider d-none d-sm-block"></div>
 
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${first_name + ' ' + last_name}"></span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${first_name + ' ' + last_name}"></span>
+                                    <img class="img-profile rounded-circle"
+                                        src="img/undraw_profile.svg">
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Profile
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Settings
+                                    </a>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Activity Log
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </nav>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Project Management</h1>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                <i class="fas fa-fw fa-plus"></i>
+                        </div>
+                    </div>
+                    <!-- /.container-fluid -->
+
+                </div>
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Project Management</h1>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            <i class="fas fa-fw fa-plus"></i>
+                            <div class="modal-body">
+                                <form id="addProjectForm" th:action="@{/addProject}" th:object="${project}" method="post" enctype="application/x-www-form-urlencoded">
+                                    <div class="form-group">
+                                        <label for="title">Title:</label>
+                                        <input type="text" th:field="*{title}" class="form-control" id="title" name="title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Description:</label>
+                                        <input type="text" th:field="*{description}" class="form-control" id="description" name="description" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="startDate">Duration:</label>
+                                        <input type="text" name="daterange" value="" class="form-control" required/>
+                                            <input type="hidden" th:field="*{startDate}" id="startDate" name="startDate" th:value="${defaultStartDate}" required>
+                                            <input type="hidden" th:field="*{endDate}" id="endDate" name="endDate" th:value="${defaultEndDate}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status:</label>
+                                        <select class="form-control" id="status" th:field="*{status}" required>
+                                            <option value="Not Started">Not Started</option>
+                                            <option value="Started">Started</option>
+                                            <option value="Ended">Ended</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="members">Members:</label>
+                                        <select data-placeholder="Members" class="chosen-select form-control" multiple tabindex="6" name="selectedUsers">
+                                            <option value=""></option>
+                                            <optgroup label="Admin">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                th:if="${member.getRole() == 'admin'}" 
+                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="Laboratory Director">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                    th:if="${member.getRole() == 'Laboratory Director'}" 
+                                                    th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="Professor">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                    th:if="${member.getRole() == 'Professor'}" 
+                                                    th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="PhD Student">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                    th:if="${member.getRole() == 'PhD Student'}" 
+                                                    th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                                </option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" onclick="refreshPage()">Add</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- Modal -->
-            <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <section class="intro">
+                    <div class="bg-image h-100" style="background-color: #f5f7fa;">
+                    <div class="mask d-flex align-items-center h-100">
+                        <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                    <table class="table table-striped mb-0">
+                                    <thead style="background-color: #002d72;">
+                                        <tr>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Start Date</th>
+                                        <th scope="col">End Date</th>
+                                        <th scope="col">Members</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Edit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="p : ${projects}">
+                                            <td th:text="${p.getTitle()}"></td>
+                                            <td th:text="${p.getDescription()}"></td>
+                                            <td th:text="${p.getStartDateString()}"></td>
+                                            <td th:text="${p.getEndDateString()}"></td>
+                                            <td th:text="${p.getUsersNames()}"></td>
+                                            <td th:text="${p.getStatus()}"></td>
+                                            <td style="vertical-align: middle;">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary btn-sm rounded" th:attr="onclick='openEditModal(\'' + ${p.getId()} + '\')'" style="margin-right: 10px;">
+                                                        Edit
+                                                    </button>
+                                                    <form th:action="@{/deleteProject}" method="post">
+                                                        <input type="hidden" th:name="projectId" th:value="${p.getId()}" />
+                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="refreshPage()">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <form id="addProjectForm" th:action="@{/addProject}" th:object="${project}" method="post" enctype="application/x-www-form-urlencoded">
-                                <div class="form-group">
-                                    <label for="title">Title:</label>
-                                    <input type="text" th:field="*{title}" class="form-control" id="title" name="title" required>
+                        </div>
+                    </div>
+                    </div>
+                </section>
+
+                <!-- Edit Modal (Outside of the Table) -->
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form th:action="@{/editProject}" th:object="${project}" method="post" enctype="application/x-www-form-urlencoded">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Project</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideEditModal()">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Description:</label>
-                                    <input type="text" th:field="*{description}" class="form-control" id="description" name="description" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="startDate">Duration:</label>
-                                    <input type="text" name="daterange" value="" class="form-control" required/>
-                                        <input type="hidden" th:field="*{startDate}" id="startDate" name="startDate" th:value="${defaultStartDate}" required>
-                                        <input type="hidden" th:field="*{endDate}" id="endDate" name="endDate" th:value="${defaultEndDate}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="status">Status:</label>
-                                    <select class="form-control" id="status" th:field="*{status}" required>
-                                        <option value="Not Started">Not Started</option>
-                                        <option value="Started">Started</option>
-                                        <option value="Ended">Ended</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="startDate">Members:</label>
-                                    <select data-placeholder="Members" class="chosen-select form-control" multiple tabindex="6" name="selectedUsers">
-                                        <option value=""></option>
-                                        <optgroup label="Admin">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                            th:if="${member.getRole() == 'admin'}" 
-                                            th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
-                                        <optgroup label="Laboratory Director">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                th:if="${member.getRole() == 'Laboratory Director'}" 
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" th:field="*{id}" class="form-control" id="idEdit" name="id" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="titleEdit">Title:</label>
+                                        <input type="text" th:field="*{title}" class="form-control" id="titleEdit" name="title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="descriptionEdit">Description:</label>
+                                        <input type="text" th:field="*{description}" class="form-control" id="descriptionEdit" name="description" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="duration">Duration:</label>
+                                        <input type="text" name="daterangeEdit" value="" class="form-control" required/>
+                                        <input type="hidden" th:field="*{startDate}" id="startDateEdit" name="startDate" required>
+                                        <input type="hidden" th:field="*{endDate}" id="endDateEdit" name="endDate" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status:</label>
+                                        <select class="form-control" th:id="statusEdit" th:field="*{status}" name="status" required>
+                                            <option value="Not Started">Not Started</option>
+                                            <option value="Started">Started</option>
+                                            <option value="Ended">Ended</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="members">Members:</label>
+                                        <select  class="chosen-select form-control" multiple tabindex="6" data-placeholder="Members" name="selectedUsersEdit"  id="userSelect">
+                                            <option value=""></option>
+                                            <optgroup label="Admin">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                th:if="${member.getRole() == 'admin'}" 
                                                 th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
-                                        <optgroup label="Professor">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                th:if="${member.getRole() == 'Professor'}" 
-                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
-                                        <optgroup label="PhD Student">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                th:if="${member.getRole() == 'PhD Student'}" 
-                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
-                                    </select>
-                                </div>                                
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="Laboratory Director">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                    th:if="${member.getRole() == 'Laboratory Director'}" 
+                                                    th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="Professor">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                    th:if="${member.getRole() == 'Professor'}" 
+                                                    th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="PhD Student">
+                                                <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                    th:if="${member.getRole() == 'PhD Student'}" 
+                                                    th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                                </option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary" onclick="refreshPage()">Add</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideEditModal()">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
-            <section class="intro">
-                <div class="bg-image h-100" style="background-color: #f5f7fa;">
-                  <div class="mask d-flex align-items-center h-100">
-                    <div class="container">
-                      <div class="row justify-content-center">
-                        <div class="col-12">
-                          <div class="card">
-                            <div class="card-body p-0">
-                              <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
-                                <table class="table table-striped mb-0">
-                                  <thead style="background-color: #002d72;">
-                                    <tr>
-                                      <th scope="col">Title</th>
-                                      <th scope="col">Description</th>
-                                      <th scope="col">Start Date</th>
-                                      <th scope="col">End Date</th>
-                                      <th scope="col">Members</th>
-                                      <th scope="col">Status</th>
-                                      <th scope="col">Edit</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr th:each="p : ${projects}">
-                                        <td th:text="${p.getTitle()}"></td>
-                                        <td th:text="${p.getDescription()}"></td>
-                                        <td th:text="${p.getStartDateString()}"></td>
-                                        <td th:text="${p.getEndDateString()}"></td>
-                                        <td th:text="${p.getUsersNames()}"></td>
-                                        <td th:text="${p.getStatus()}"></td>
-                                        <td style="vertical-align: middle;">
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-primary btn-sm rounded" th:attr="onclick='openEditModal(\'' + ${p.getId()} + '\')'" style="margin-right: 10px;">
-                                                    Edit
-                                                </button>
-                                                <form th:action="@{/deleteMember}" method="post">
-                                                    <input type="hidden" th:name="projectId" th:value="${p.getId()}" />
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="refreshPage()">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                     </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; SDSI JEE 2023</span>
                         </div>
-                      </div>
                     </div>
-                  </div>
-                </div>
-              </section>
-            <!-- End of Main Content -->
+                </footer>
+                <!-- End of Footer -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; SDSI JEE 2023</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            </div>
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" th:href="@{/login}">Logout</a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" th:href="@{/login}">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script>
-        $(function() {
-            $('input[name="daterange"]').daterangepicker({
-                autoUpdateInput: false,
-                locale: {
-                    cancelLabel: 'Clear'
-                },
-                opens: 'left'
-            }, function(start, end, label) {
-                $('#startDate').val(start.format('DD-MM-YYYY'));
-                $('#endDate').val(end.format('DD-MM-YYYY'));
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+            $(function() {
+                $('input[name="daterange"]').daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+                        cancelLabel: 'Clear',
+                        format: 'DD-MM-YYYY'
+                    },
+                    opens: 'left'
+                }, function(start, end, label) {
+                    $('#startDate').val(start.format('DD-MM-YYYY'));
+                    $('#endDate').val(end.format('DD-MM-YYYY'));
+                });
+                $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                });
+
+                $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                });
             });
-            $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-            });
+        </script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+            function openEditModal(id) {
+        
+                $.ajax({
+                    url: "/getProjectById/" + id,
+                    type: "GET",
+                    contentType: "application/json",
+                    success: function(data) {
+                        console.log(data);
+                        $('#idEdit').val(data.id);
+                        $('#titleEdit').val(data.title);
+                        $('#descriptionEdit').val(data.description);
+                        const startDate_ = new Date(data.startDate);
+                        const startDay = String(startDate_.getDate()).padStart(2, '0');
+                        const startMonth = String(startDate_.getMonth() + 1).padStart(2, '0');
+                        const startYear = startDate_.getFullYear();
+                        const formattedStartDate = `${startDay}-${startMonth}-${startYear}`;
+                        $('#startDateEdit').val(formattedStartDate);
+                        const endDate_ = new Date(data.endDate);
+                        const endDay = String(endDate_.getDate()).padStart(2, '0');
+                        const endMonth = String(endDate_.getMonth() + 1).padStart(2, '0');
+                        const endYear = endDate_.getFullYear();
+                        const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
+                        $('#endDateEdit').val(formattedEndDate);
+                        $('#statusEdit').val(data.status);
+                        $('#editModal').modal('show');
+                        $(function() {
+                            $('input[name="daterangeEdit"]').daterangepicker({
+                                startDate: moment(startDate_, 'DD-MM-YYYY'),
+                                endDate: moment(endDate_, 'DD-MM-YYYY'),
+                                opens: 'left',
+                                locale: {
+                                    format: 'DD-MM-YYYY'
+                                }
+                            }, function(start, end, label) {
+                                $('#startDateEdit').val(start.format('DD-MM-YYYY'));
+                                $('#endDateEdit').val(end.format('DD-MM-YYYY'));
+                            });
+                        });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error: " + textStatus, errorThrown);
+                    }
+                });
+            }
+            function hideEditModal(){
+                $('#editModal').modal('hide');
+            }
+        </script>
+        
+    </body>
 
-            $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-        });
-    </script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
-    <script src="js/main.js"></script>
-    
-</body>
-
-</html>
+    </html>

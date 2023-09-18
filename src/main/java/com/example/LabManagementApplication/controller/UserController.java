@@ -63,12 +63,6 @@ public class UserController {
 
     @PostMapping("/editMember")
     public RedirectView editUser(@ModelAttribute("user") Users user) {
-        System.out.println("EDIT");
-        System.out.println(user.getFirstName());
-        System.out.println(user.getLastName());
-        System.out.println(user.getEmail());
-        System.out.println(user.getRole());
-        System.out.println(user.getId());
         Users userToUpdate = userRepository.findById(user.getId()).get();
         userToUpdate.setFirstName(user.getFirstName());
         userToUpdate.setLastName(user.getLastName());
