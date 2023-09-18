@@ -82,12 +82,14 @@ public class ProjectController {
 
     @Transactional
     @PostMapping("/editProject")
-    public RedirectView editProject(@ModelAttribute("project") Project project, @RequestParam("selectedUsersEdit") List<Long> selectedUsers) {
+    public RedirectView editProject(@ModelAttribute("project") Project project, @RequestParam(name="selectedUsersEdit", required=false) List<Long> selectedUsers) {
         Project project_ = projectRepository.getReferenceById(project.getId());
         project_.removeUsers();
-        Set<Users> users = new HashSet<>(userService.getUsersByIds(selectedUsers));
-        for (Users user : users) {
-            project_.getUsers().add(user);
+        if(selectedUsers != null) {
+            Set<Users> users = new HashSet<>(userService.getUsersByIds(selectedUsers));
+            for (Users user : users) {
+                project_.getUsers().add(user);
+            }
         }
         projectService.updateProject(project_);
         return new RedirectView("projectManagement");
