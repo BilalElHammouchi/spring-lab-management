@@ -78,4 +78,8 @@ public class Users {
         return this.role;
     }
 
+    public String getFullName() {
+        return this.firstName+" "+this.lastName;
+    }
+
 }
