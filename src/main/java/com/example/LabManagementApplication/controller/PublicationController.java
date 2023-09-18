@@ -22,6 +22,7 @@ import com.example.LabManagementApplication.model.Project;
 import com.example.LabManagementApplication.model.Publication;
 import com.example.LabManagementApplication.model.Users;
 import com.example.LabManagementApplication.repository.ProjectRepository;
+import com.example.LabManagementApplication.repository.PublicationRepository;
 import com.example.LabManagementApplication.repository.UserRepository;
 import com.example.LabManagementApplication.service.FileUploadService;
 import com.example.LabManagementApplication.service.PublicationService;
@@ -39,6 +40,8 @@ public class PublicationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PublicationRepository publicationRepository;
 
     @Autowired 
     private PublicationService publicationService;
@@ -75,8 +78,19 @@ public class PublicationController {
             int lastIndex = file.getOriginalFilename().lastIndexOf(".");
             String extension = "."+file.getOriginalFilename().substring(lastIndex + 1);
             String fileName = "publication_"+String.valueOf(newPublication.getId())+extension;
-            FileUploadService.saveFile(UPLOAD_DIRECTORY, String.valueOf(newPublication.getId())+extension, file);
+            FileUploadService.saveFile(UPLOAD_DIRECTORY, fileName, file);
         }
+        return new RedirectView("publicationManagement");
+    }
+
+    @PostMapping("/deletePublication")
+    public RedirectView deletePublication(@RequestParam("publicationId") Long publicationId) {
+        Optional<Publication> publicationToDelete = publicationRepository.findById(publicationId);
+
+        if(publicationToDelete.isPresent()){
+            publicationRepository.deleteById(publicationId);
+        }
+
         return new RedirectView("publicationManagement");
     }
 }
