@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +33,27 @@ public class ProjectService {
         newProject.setEndDate(endDate);
         newProject.setStatus(status);
         newProject = projectRepository.save(newProject);
-        System.out.println("Project ID after save: " + newProject.getId());
-        System.out.println("Associated Users: " + newProject.getUsers());
-
-        // Add users to the project
         for (Users user : users) {
             newProject.getUsers().add(user);
         }
-        
-        // Log the state of the project after adding users
-        System.out.println("Project ID after adding users: " + newProject.getId());
-        System.out.println("Associated Users after adding users: " + newProject.getUsers());
         return newProject;
+    }
+
+    public void updateProject(Project project) {
+
+        Project existingProject = projectRepository.findById(project.getId()).orElse(null);
+
+        if (existingProject != null) {
+            existingProject.setTitle(project.getTitle());
+            existingProject.setDescription(project.getDescription());
+            existingProject.setStartDate(project.getStartDate());
+            existingProject.setEndDate(project.getEndDate());
+            existingProject.setUsers(project.getUsers());
+            existingProject.setStatus(project.getStatus());
+            projectRepository.save(existingProject);
+        } else {
+            throw new EntityNotFoundException("Project with ID " + project.getId() + " not found");
+        }
     }
 
     @Transactional

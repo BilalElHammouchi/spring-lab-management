@@ -1,14 +1,20 @@
 package com.example.LabManagementApplication.controller;
 
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,12 +41,6 @@ public class ProjectController {
     @PostMapping("/addProject")
     public RedirectView addProject(@ModelAttribute("project") Project project, @RequestParam("selectedUsers") List<Long> selectedUsers, Model model) {
         try {
-            System.out.println(project.getTitle());
-            System.out.println(project.getDescription());
-            System.out.println(project.getStartDate());
-            System.out.println(project.getEndDate());
-            System.out.println(project.getStatus());
-            System.out.println(selectedUsers);
             Set<Users> users = new HashSet<>(userService.getUsersByIds(selectedUsers));
             projectService.createProject(
                 project.getTitle(),
@@ -58,4 +58,38 @@ public class ProjectController {
         return new RedirectView("projectManagement");
     }
     
+    @PostMapping("/deleteProject")
+    public RedirectView deleteProject(@RequestParam("projectId") Long projectId) {
+        Optional<Project> projectToDelete = projectRepository.findById(projectId);
+
+        if(projectToDelete.isPresent()){
+            projectRepository.deleteById(projectId);
+        }
+
+        return new RedirectView("projectManagement");
+    }
+
+    @GetMapping("/getProjectById/{id}")
+    public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
+        Optional<Project> project = projectRepository.findById(id);
+        
+        if (project.isPresent()) {
+            return new ResponseEntity<>(project.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Transactional
+    @PostMapping("/editProject")
+    public RedirectView editProject(@ModelAttribute("project") Project project, @RequestParam("selectedUsersEdit") List<Long> selectedUsers) {
+        Project project_ = projectRepository.getReferenceById(project.getId());
+        project_.removeUsers();
+        Set<Users> users = new HashSet<>(userService.getUsersByIds(selectedUsers));
+        for (Users user : users) {
+            project_.getUsers().add(user);
+        }
+        projectService.updateProject(project_);
+        return new RedirectView("projectManagement");
+    }
 }
