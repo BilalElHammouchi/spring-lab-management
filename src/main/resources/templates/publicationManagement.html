@@ -315,7 +315,7 @@
             <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form th:action="@{/editPublication}" th:object="${project}" method="post" enctype="application/x-www-form-urlencoded">
+                        <form th:action="@{/editPublication}" th:object="${publication}" method="post" enctype="application/x-www-form-urlencoded">
                             <div class="modal-header">
                                 <h5 class="modal-title">Edit Project</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideEditModal()">
@@ -331,52 +331,43 @@
                                     <input type="text" th:field="*{title}" class="form-control" id="titleEdit" name="title" required>
                                 </div>
                                 <div class="form-group">
+                                    <label for="headerEdit">Header:</label>
+                                    <input type="text" th:field="*{header}" class="form-control" id="headerEdit" name="headerEdit" required>
+                                </div>
+                                <div class="form-group">
                                     <label for="descriptionEdit">Description:</label>
                                     <textarea th:field="*{description}" class="form-control" id="descriptionEdit" name="descriptionEdit" rows="4" cols="50" required></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="duration">Duration:</label>
-                                    <input type="text" name="daterangeEdit" value="" class="form-control" required/>
-                                    <input type="hidden" th:field="*{startDate}" id="startDateEdit" name="startDate" required>
-                                    <input type="hidden" th:field="*{endDate}" id="endDateEdit" name="endDate" required>
+                                    <label for="publicationDateEdit">Publication Date:</label>
+                                    <div class="input-group date" data-provide="datepicker">
+                                        <input type="text" class="form-control" id="publicationDateEdit" name="publicationDateEdit" 
+                                            placeholder="Pick The Publication Date" th:field="*{publicationDate}"  required>
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="status">Status:</label>
-                                    <select class="form-control" th:id="statusEdit" th:field="*{status}" name="status" required>
-                                        <option value="Not Started">Not Started</option>
-                                        <option value="Started">Started</option>
-                                        <option value="Ended">Ended</option>
+                                    <label for="project">Project:</label>
+                                    <input type="hidden" id="projectIdEdit" name="projectIdEdit">
+                                    <select class="form-control" id="project_" onchange="handleProjectChange()" required>
+                                        <option th:each="project : ${projects}" th:value="${project}" th:data-project-id="${project.getId()}"
+                                            th:text="${project.getTitle()}"></option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="members">Members:</label>
-                                    <select  class="chosen-select form-control" multiple tabindex="6" data-placeholder="Members" name="selectedUsersEdit"  id="userSelect">
-                                        <option value=""></option>
-                                        <optgroup label="Admin">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                            th:if="${member.getRole() == 'admin'}" 
+                                    <label for="author">Author:</label>
+                                    <input type="hidden" id="authorIdEdit" name="authorIdEdit">
+                                    <select class="form-control" id="author" onchange="handleAuthorChange()" required>
+                                        <option th:each="member : ${members}" th:value="${member.getId()}"
                                             th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
-                                        <optgroup label="Laboratory Director">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                th:if="${member.getRole() == 'Laboratory Director'}" 
-                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
-                                        <optgroup label="Professor">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                th:if="${member.getRole() == 'Professor'}" 
-                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
-                                        <optgroup label="PhD Student">
-                                            <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                th:if="${member.getRole() == 'PhD Student'}" 
-                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                            </option>
-                                        </optgroup>
+                                        </option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Image">Image:</label>
+                                    <input type="file" name="image" accept="image/*" id="image" class="form-control-file">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -453,33 +444,10 @@
                     $('#idEdit').val(data.id);
                     $('#titleEdit').val(data.title);
                     $('#descriptionEdit').val(data.description);
-                    const startDate_ = new Date(data.startDate);
-                    const startDay = String(startDate_.getDate()).padStart(2, '0');
-                    const startMonth = String(startDate_.getMonth() + 1).padStart(2, '0');
-                    const startYear = startDate_.getFullYear();
-                    const formattedStartDate = `${startDay}-${startMonth}-${startYear}`;
-                    $('#startDateEdit').val(formattedStartDate);
-                    const endDate_ = new Date(data.endDate);
-                    const endDay = String(endDate_.getDate()).padStart(2, '0');
-                    const endMonth = String(endDate_.getMonth() + 1).padStart(2, '0');
-                    const endYear = endDate_.getFullYear();
-                    const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
-                    $('#endDateEdit').val(formattedEndDate);
-                    $('#statusEdit').val(data.status);
+                    $('#headerEdit').val(data.header);
+                    var publicationDate = new Date(data.publicationDate);
+                    $("#publicationDateEdit").datepicker("setDate", publicationDate);
                     $('#editModal').modal('show');
-                    $(function() {
-                        $('input[name="daterangeEdit"]').daterangepicker({
-                            startDate: moment(startDate_, 'DD-MM-YYYY'),
-                            endDate: moment(endDate_, 'DD-MM-YYYY'),
-                            opens: 'left',
-                            locale: {
-                                format: 'DD-MM-YYYY'
-                            }
-                        }, function(start, end, label) {
-                            $('#startDateEdit').val(start.format('DD-MM-YYYY'));
-                            $('#endDateEdit').val(end.format('DD-MM-YYYY'));
-                        });
-                    });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error("Error: " + textStatus, errorThrown);

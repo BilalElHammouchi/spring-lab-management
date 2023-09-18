@@ -23,6 +23,7 @@ import com.example.LabManagementApplication.model.Publication;
 import com.example.LabManagementApplication.model.Users;
 import com.example.LabManagementApplication.repository.ProjectRepository;
 import com.example.LabManagementApplication.repository.PublicationRepository;
+import com.example.LabManagementApplication.repository.PublicationResponseDTO;
 import com.example.LabManagementApplication.repository.UserRepository;
 import com.example.LabManagementApplication.service.FileUploadService;
 import com.example.LabManagementApplication.service.PublicationService;
@@ -92,5 +93,20 @@ public class PublicationController {
         }
 
         return new RedirectView("publicationManagement");
+    }
+
+    @GetMapping("/getPublicationById/{id}")
+    public ResponseEntity<PublicationResponseDTO> getPublicationById(@PathVariable Long id) {
+        Optional<Publication> publication = publicationRepository.findById(id);
+        
+        if (publication.isPresent()) {
+            PublicationResponseDTO responseDTO = new PublicationResponseDTO();
+            responseDTO.setPublication(publication.get());
+            responseDTO.setProjectId(publication.get().getProject().getId());
+            responseDTO.setAuthorId(publication.get().getAuthor().getId());
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
