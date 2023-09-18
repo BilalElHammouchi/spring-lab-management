@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.LabManagementApplication.model.Project;
+import com.example.LabManagementApplication.model.Publication;
 import com.example.LabManagementApplication.model.Users;
 import com.example.LabManagementApplication.repository.UserRepository;
 import com.example.LabManagementApplication.service.ProjectService;
+import com.example.LabManagementApplication.service.PublicationService;
 import com.example.LabManagementApplication.service.UserService;
 
 
@@ -25,11 +27,13 @@ public class WebController {
 
     private final UserService userService;
     private final ProjectService projectService;
+    private final PublicationService publicationService;
 
     @Autowired
-    public WebController(UserService userService, ProjectService projectService) {
+    public WebController(UserService userService, ProjectService projectService, PublicationService publicationService) {
         this.userService = userService;
         this.projectService = projectService;
+        this.publicationService = publicationService;
     }
 
 
@@ -86,6 +90,11 @@ public class WebController {
     @GetMapping("/publicationManagement")
     public String publicationManagement(Model model) {
         addAttributes(model);
+        model.addAttribute("publications", publicationService.getAllEntities());
+        model.addAttribute("members", userService.getAllEntities());
+        model.addAttribute("projects", projectService.getAllEntities());
+        model.addAttribute("publication", new Publication());
+        System.out.println(publicationService.getAllEntities());
         return "publicationManagement";
     }
 
