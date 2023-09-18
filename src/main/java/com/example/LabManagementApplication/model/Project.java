@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +23,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String title;
     private String description;
     
@@ -33,11 +36,11 @@ public class Project {
 
     private String status;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "project_user",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "project_id")
+        joinColumns = @JoinColumn(name = "project_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<Users> users = new HashSet<>();
 
@@ -102,6 +105,22 @@ public class Project {
 
     public Set<Users> getUsers() {
         return users;
+    }
+
+    public String getUsersNames() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Users user : this.users) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(user.getFirstName()+" "+user.getLastName());
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public void setUsers(Set<Users> users) {
+        this.users = users;
     }
 
 }

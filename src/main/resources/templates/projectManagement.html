@@ -238,33 +238,33 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="startDate">Members:</label>
-                                            <select data-placeholder="Members" class="chosen-select form-control" multiple tabindex="6">
-                                                <option value=""></option>
-                                                <optgroup label="Admin">
-                                                    <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                    th:if="${member.getRole() == 'admin'}" 
-                                                    th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                                    </option>
-                                                </optgroup>
-                                                <optgroup label="Laboratory Director">
-                                                    <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                        th:if="${member.getRole() == 'Laboratory Director'}" 
-                                                        th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                                    </option>
-                                                </optgroup>
-                                                <optgroup label="Professor">
-                                                    <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                        th:if="${member.getRole() == 'Professor'}" 
-                                                        th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                                    </option>
-                                                </optgroup>
-                                                <optgroup label="PhD Student">
-                                                    <option th:each="member : ${members}" th:value="${member.getId()}"
-                                                        th:if="${member.getRole() == 'PhD Student'}" 
-                                                        th:text="${member.getFirstName()+' '+member.getLastName()}">
-                                                    </option>
-                                                </optgroup>
-                                            </select>
+                                    <select data-placeholder="Members" class="chosen-select form-control" multiple tabindex="6" name="selectedUsers">
+                                        <option value=""></option>
+                                        <optgroup label="Admin">
+                                            <option th:each="member : ${members}" th:value="${member.getId()}"
+                                            th:if="${member.getRole() == 'admin'}" 
+                                            th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Laboratory Director">
+                                            <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                th:if="${member.getRole() == 'Laboratory Director'}" 
+                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Professor">
+                                            <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                th:if="${member.getRole() == 'Professor'}" 
+                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="PhD Student">
+                                            <option th:each="member : ${members}" th:value="${member.getId()}"
+                                                th:if="${member.getRole() == 'PhD Student'}" 
+                                                th:text="${member.getFirstName()+' '+member.getLastName()}">
+                                            </option>
+                                        </optgroup>
+                                    </select>
                                 </div>                                
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -302,7 +302,7 @@
                                         <td th:text="${p.getDescription()}"></td>
                                         <td th:text="${p.getStartDateString()}"></td>
                                         <td th:text="${p.getEndDateString()}"></td>
-                                        <td></td>
+                                        <td th:text="${p.getUsersNames()}"></td>
                                         <td th:text="${p.getStatus()}"></td>
                                         <td style="vertical-align: middle;">
                                             <div class="btn-group">
@@ -408,6 +408,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
     <script src="js/main.js"></script>
+    
 </body>
 
 </html>

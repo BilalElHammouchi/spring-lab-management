@@ -2,6 +2,7 @@ package com.example.LabManagementApplication.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -21,23 +22,33 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public Project createProject(String title, String description, Date startDate, Date endDate, String status) {
+
+    @Transactional
+    public Project createProject(String title, String description, Date startDate, Date endDate, String status, Set<Users> users) {
         Project newProject = new Project();
         newProject.setTitle(title);
         newProject.setDescription(description);
         newProject.setStartDate(startDate);
         newProject.setEndDate(endDate);
         newProject.setStatus(status);
+        newProject = projectRepository.save(newProject);
+        System.out.println("Project ID after save: " + newProject.getId());
+        System.out.println("Associated Users: " + newProject.getUsers());
 
-        return projectRepository.save(newProject);
+        // Add users to the project
+        for (Users user : users) {
+            newProject.getUsers().add(user);
+        }
+        
+        // Log the state of the project after adding users
+        System.out.println("Project ID after adding users: " + newProject.getId());
+        System.out.println("Associated Users after adding users: " + newProject.getUsers());
+        return newProject;
     }
 
     @Transactional
-    public void addUserToProject(Long projectId, Users user) {
-        Project project = projectRepository.findById(projectId).orElse(null);
-        if (project != null) {
-            project.getUsers().add(user);
-        }
+    public void addUserToProject(Project project, Users user) {
+        project.getUsers().add(user);
     }
 
     public List<Project> getAllEntities() {
