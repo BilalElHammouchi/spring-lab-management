@@ -85,6 +85,11 @@ public class ProjectController {
     public RedirectView editProject(@ModelAttribute("project") Project project, @RequestParam(name="selectedUsersEdit", required=false) List<Long> selectedUsers) {
         Project project_ = projectRepository.getReferenceById(project.getId());
         project_.removeUsers();
+        project_.setTitle(project.getTitle());
+        project_.setDescription(project.getDescription());
+        project_.setStartDate(project.getStartDate());
+        project_.setEndDate(project.getEndDate());
+        project_.setStatus(project.getStatus());
         if(selectedUsers != null) {
             Set<Users> users = new HashSet<>(userService.getUsersByIds(selectedUsers));
             for (Users user : users) {
