@@ -52,4 +52,8 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public List<Users> getUsersByIds(List<Long> userIds) {
+        return userRepository.findAllById(userIds);
+    }
+
 }

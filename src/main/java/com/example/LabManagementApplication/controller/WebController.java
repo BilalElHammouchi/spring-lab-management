@@ -80,7 +80,6 @@ public class WebController {
         model.addAttribute("projects", projectService.getAllEntities());
         model.addAttribute("members", userService.getAllEntities());
         model.addAttribute("project", new Project());
-        System.out.println(projectService.getAllEntities());
         return "projectManagement";
     }
 
