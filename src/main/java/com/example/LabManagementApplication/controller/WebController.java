@@ -63,6 +63,7 @@ public class WebController {
         model.addAttribute("projects", projectService.getAllEntities());
         model.addAttribute("publications", publicationService.getAllEntities());
         model.addAttribute("resources", resourceService.getAllEntities());
+        model.addAttribute("publicationProjectUser", getPublicationProjectUser());
         return "index";
     }
 
@@ -99,6 +100,13 @@ public class WebController {
         result.put("members", userService.getAllEntities());
         result.put("projects", projectService.getAllEntities());
         result.put("publications", publicationService.getAllEntities());
+        
+        result.put("publicationProjectUser", getPublicationProjectUser());
+        result.put("resources", resourceService.getAllEntities());
+        return result;
+    }
+
+    public List<Map<String, Long>> getPublicationProjectUser(){
         List<Map<String, Long>> publicationProjectUser = new ArrayList<>();
         for (Publication publication : publicationService.getAllEntities()) {
             Map<String, Long> entry = new HashMap<>();
@@ -107,9 +115,7 @@ public class WebController {
             entry.put("authorId", publication.getAuthor().getId());
             publicationProjectUser.add(entry);
         }
-        result.put("publicationProjectUser", publicationProjectUser);
-        result.put("resources", resourceService.getAllEntities());
-        return result;
+        return publicationProjectUser;
     }
 
     @GetMapping("/projectManagement")

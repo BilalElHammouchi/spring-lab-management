@@ -218,7 +218,7 @@
                         <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
                             <a href="#MembersCard" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="MembersCard">
-                                <h6 class="m-0 font-weight-bold text-primary">Members</h6>
+                                <h4 class="m-0 font-weight-bold text-primary">Members</h4>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="MembersCard">
@@ -227,7 +227,7 @@
                                         <div class="col-md-6" id="paragraph-container">
                                         </div>
                                         <div class="col-md-6">
-                                            <h6 class="m-0 font-weight-bold text-primary text-center">Member Roles Chart</h6>
+                                            <h4 class="m-0 font-weight-bold text-primary text-center">Member Roles Chart</h4>
                                             <div class="chart-pie pt-4">
                                                 <canvas id="myPieChart"></canvas>
                                             </div>
@@ -245,7 +245,7 @@
                         <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
                             <a href="#ResourcesCard" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="ResourcesCard">
-                                <h6 class="m-0 font-weight-bold text-primary">Resources</h6>
+                                <h4 class="m-0 font-weight-bold text-primary">Resources</h4>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="ResourcesCard">
@@ -257,7 +257,7 @@
                                                 <img th:src="@{'img/resource_'+${r.getId()}+'.png'}" 
                                                     class="card-img-top img-fluid mx-auto d-block w-50" 
                                                     alt="Resource Image" 
-                                                    style="width: 200px; height: 200px; object-fit: fill;" 
+                                                    style="width: 200px; height: 200px; object-fit: fill;"
                                                     onerror="this.src='img/image_not_found.png'">
                                                 <div class="card-body">
                                                     <h5 class="card-title" th:text="${r.getName()}"></h5>
@@ -279,51 +279,65 @@
                         <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
                             <a href="#ProjectsCard" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="ProjectsCard">
-                                <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                <h4 class="m-0 font-weight-bold text-primary">Projects</h4>
                             </a>
                             <!-- Card Content - Collapse -->
                             <div class="collapse show" id="ProjectsCard">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                This is a collapsable card example using Bootstrap's built-in collapse functionality.
-                                                Click on the card header to see the card body collapse and expand!
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                This is the content of the second column. You can add any additional content here.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mx-1">
-                    <div class="col-12">
-                        <!-- Collapsable Card Example -->
-                        <div class="card shadow mb-4">
-                            <!-- Card Header - Accordion -->
-                            <a href="#PublicationsCard" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="PublicationsCard">
-                                <h6 class="m-0 font-weight-bold text-primary">Publications</h6>
-                            </a>
-                            <!-- Card Content - Collapse -->
-                            <div class="collapse show" id="PublicationsCard">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <p>
-                                                This is a collapsable card example using Bootstrap's built-in collapse functionality.
-                                                Click on the card header to see the card body collapse and expand!
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>
-                                                This is the content of the second column. You can add any additional content here.
-                                            </p>
+                                    <div style="column-count: 2; column-gap: 20px;">
+                                        <div th:each="p : ${projects}" class="card mb-4" style="border: 2px solid; margin-bottom: 20px; break-inside: avoid; page-break-inside: avoid;">
+                                                <div class="card-body">
+                                                    <h4 class="card-title text-center" th:text="${p.getTitle()}" style="font-weight: bold; color: black;"></h4>
+                                                    <br>
+                                                    <h5 class="card-title text-center">Contributors</h5>
+                                                    <span style="display: block; text-align: center;" th:each="m, iterStat : ${p.getUsers()}" th:text="@{${m.getRole()}} + ' ' + ${m.getFullName()} + ${iterStat.last ? '' : ', '}"></span>
+                                                    <br>
+                                                    <h5 class="card-title text-center">Duration</h5>
+                                                    <p class="card-text text-center" th:text="@{'From '+${p.getStartDateString()}+' to '+${p.getEndDateString()}}"></p>
+                                                    <br>
+                                                    <h5 class="card-title text-center">Status</h5>
+                                                    <p th:text="${p.getStatus()}" class="text-center" th:classappend="${p.getStatus() == 'Ended' ? 'text-danger' : (p.getStatus() == 'Started' ? 'text-success' : '')}"></p>
+                                                    <br>
+                                                    <h5 class="card-title text-center">Description</h5>
+                                                    <p class="card-text text-center" th:text="${p.getDescription()}" 
+                                                    style="overflow: hidden; text-overflow: ellipsis; white-space: normal;"></p>
+                                                    <br>
+                                                    <h5 class="card-title text-center">Publications</h5>
+                                                    <div class="card shadow mb-4">
+                                                        <a th:href="'#PublicationsCard-' + ${p.getId()}" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="Publications">
+                                                            <h6 class="m-0 font-weight-bold text-primary">Publications</h6>
+                                                        </a>
+                                                        <div class="collapse show" th:id="'PublicationsCard-' + ${p.getId()}">
+                                                            <div class="card-body">
+                                                                <div style="overflow-x: auto; white-space: nowrap;">
+                                                                    <div class="col-md-10" th:each="pubpro : ${publicationProjectUser}" th:if="${pubpro['projectId'] == p.getId()}" style="display: inline-block; margin-right: 10px;">
+                                                                        <div class="card mb-4" style="border: 2px solid;">
+                                                                            <div class="card-body">
+                                                                                <div th:each="pub : ${publications}" th:if="${pub.getId() == pubpro['publicationId']}">
+                                                                                    <h4 class="card-title text-center" th:text="${pub.getTitle()}" style="font-weight: bold; color: black;"></h4>
+                                                                                    <h5 class="card-title text-center" th:text="${pub.getHeader()}" style="font-weight: bold;"></h5>
+                                                                                    <br>
+                                                                                    <h6 class="card-text text-center">Author:</h6>
+                                                                                    <p class="text-center" th:each="m : ${members}" th:if="${m.getId() == pubpro['authorId']}" th:text="@{${m.getRole()}} + ' ' + ${m.getFullName()}"></p><br>
+                                                                                    <h6 class="card-text text-center">Published at:</h6>
+                                                                                    <p class="text-center" th:text="${pub.getPublicationDateString()}"></p>
+                                                                                    <img th:src="@{'img/publication_'+${pub.getId()}+'.png'}" 
+                                                                                    class="card-img-top img-fluid mx-auto d-block w-100" 
+                                                                                    alt="Publication Image" 
+                                                                                    style="width: 300px; height: 300px; object-fit:cover;"
+                                                                                    onerror="this.src='img/image_not_found.png'">
+                                                                                    <br>
+                                                                                    <h6 class="card-text text-center">Description:</h6>
+                                                                                    <p class="text-center" th:text="${pub.getDescription()}"></p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -395,7 +409,7 @@
         $.get('/getAllData', function(data) {
             const container = document.getElementById("paragraph-container");
             const paragraph = document.createElement("p");
-            //console.log(data);
+            console.log(data);
             var adminsNumber = 0;
             var directorsNumber = 0;
             var professorsNumber = 0;
