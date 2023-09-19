@@ -29,7 +29,12 @@
             height: 70%;
         }
 
-        table td,
+        table td {
+            max-width: 300px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+        }
         table th {
             text-overflow: ellipsis;
             white-space: nowrap;
