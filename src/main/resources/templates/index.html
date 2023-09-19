@@ -79,10 +79,40 @@
                     <span>Resource Management</span></a>
             </li>
 
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/roleManagement}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Role Management</span></a>
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/membersManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Members List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director' || role == 'PhD Student'}">
+                <a class="nav-link" th:href="@{/projectManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Project List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director' || role == 'PhD Student'}">
+                <a class="nav-link" th:href="@{/publicationManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Publication List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/resourceManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Resource List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Professor'}">
+                <a class="nav-link" th:href="@{/projectManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Project List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Professor'}">
+                <a class="nav-link" th:href="@{/publicationManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Publication Management</span></a>
             </li>
 
             <!-- Divider -->
@@ -142,7 +172,7 @@
                 <!-- /.container-fluid -->
                 <div class="row mx-1">
 
-                    <div class="col-xl-3 col-md-6 mb-4">
+                    <div th:if="${role == 'admin' || role =='Laboratory Director'}" class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -194,7 +224,7 @@
                         </div>
                     </div>
     
-                    <div class="col-xl-3 col-md-6 mb-4">
+                    <div th:if="${role == 'admin' || role =='Laboratory Director'}" class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-warning shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -213,7 +243,7 @@
 
                 </div>
                 
-                <div class="row mx-1">
+                <div th:if="${role == 'admin' || role =='Laboratory Director'}" class="row mx-1">
                     <div class="col-12">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Accordion -->
@@ -239,7 +269,7 @@
                     </div>
                 </div>
 
-                <div class="row mx-1">
+                <div th:if="${role == 'admin' || role =='Laboratory Director'}" class="row mx-1">
                     <div class="col-12">
                         <!-- Collapsable Card Example -->
                         <div class="card shadow mb-4">
@@ -314,8 +344,8 @@
                                                                         <div class="card mb-4" style="border: 2px solid;">
                                                                             <div class="card-body">
                                                                                 <div th:each="pub : ${publications}" th:if="${pub.getId() == pubpro['publicationId']}">
-                                                                                    <h4 class="card-title text-center" th:text="${pub.getTitle()}" style="font-weight: bold; color: black;"></h4>
-                                                                                    <h5 class="card-title text-center" th:text="${pub.getHeader()}" style="font-weight: bold;"></h5>
+                                                                                    <h4 class="card-title text-center" th:text="${pub.getTitle()}" style="font-weight: bold; color: black; overflow: hidden; text-overflow: ellipsis; white-space: normal;"></h4>
+                                                                                    <h5 class="card-title text-center" th:text="${pub.getHeader()}" style="font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: normal;"></h5>
                                                                                     <br>
                                                                                     <h6 class="card-text text-center">Author:</h6>
                                                                                     <p class="text-center" th:each="m : ${members}" th:if="${m.getId() == pubpro['authorId']}" th:text="@{${m.getRole()}} + ' ' + ${m.getFullName()}"></p><br>
@@ -328,7 +358,7 @@
                                                                                     onerror="this.src='img/image_not_found.png'">
                                                                                     <br>
                                                                                     <h6 class="card-text text-center">Description:</h6>
-                                                                                    <p class="text-center" th:text="${pub.getDescription()}"></p>
+                                                                                    <p class="text-center" th:text="${pub.getDescription()}" style="overflow: hidden; text-overflow: ellipsis; white-space: normal;"></p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

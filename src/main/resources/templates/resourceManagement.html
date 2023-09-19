@@ -151,10 +151,28 @@
                     <span>Resource Management</span></a>
             </li>
 
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/roleManagement}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Role Management</span></a>
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/membersManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Members List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/projectManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Project List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/publicationManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Publication List</span></a>
+            </li>
+
+            <li class="nav-item active" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/resourceManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Resource List</span></a>
             </li>
 
             <!-- Divider -->
@@ -207,7 +225,7 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Resource Management</h1>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <button th:if="${role == 'admin'}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             <i class="fas fa-fw fa-plus"></i>
                     </div>
 
@@ -266,7 +284,7 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">Description</th>
                                         <th scope="col">Availability</th>
-                                        <th scope="col">Edit</th>
+                                        <th th:if="${role == 'admin'}" scope="col">Edit</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -277,7 +295,7 @@
                                                 <div th:if="${r.getAvailability()}" class="green-rectangle"></div>
                                                 <div th:unless="${r.getAvailability()}" class="red-rectangle"></div>
                                             </td>
-                                            <td style="vertical-align: middle;">
+                                            <td th:if="${role == 'admin'}" style="vertical-align: middle;">
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-primary btn-sm rounded" th:attr="onclick='openEditModal(\'' + ${r.getId()} + '\')'" style="margin-right: 10px;">
                                                         Edit
@@ -306,7 +324,7 @@
                 <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form th:action="@{/editResource}" th:object="${resource}" method="post" enctype="application/x-www-form-urlencoded">
+                            <form th:action="@{/editResource}" th:object="${resource}" method="post" enctype="multipart/form-data">
                                 <div class="modal-header">
                                     <h5 class="modal-title">Edit Resource</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideEditModal()">
@@ -406,15 +424,15 @@
                 type: "GET",
                 contentType: "application/json",
                 success: function(data) {
-                    console.log(data);
                     $('#idEdit').val(data.id);
                     $('#nameEdit').val(data.name);
                     $('#descriptionEdit').val(data.description);
                     $('#AvailabilityEdit').val(data.availability);
-                    if (checkbox.checked) {
-                        console.log("Checkbox is checked.");
+                    var checkbox = document.getElementById("availabilityEdit");
+                    if (data.availability) {
+                        checkbox.checked = true;
                     } else {
-                        console.log("Checkbox is not checked.");
+                        checkbox.checked = false;
                     }
                     $('#editModal').modal('show');
                 },
