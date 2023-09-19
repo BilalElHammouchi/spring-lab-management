@@ -315,7 +315,7 @@
             <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form th:action="@{/editPublication}" th:object="${publication}" method="post" enctype="application/x-www-form-urlencoded">
+                        <form th:action="@{/editPublication}" th:object="${publication}" method="post" enctype="multipart/form-data">
                             <div class="modal-header">
                                 <h5 class="modal-title">Edit Project</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="hideEditModal()">
@@ -467,6 +467,8 @@
                                 break;
                             }
                         }
+                        var hiddenInput = document.getElementById("authorIdEdit");
+                        hiddenInput.value = data.authorId;
                     }, 100);
                     $('#editModal').modal('show');
                 },
@@ -485,6 +487,15 @@
             var selectedOption = selectElement.options[selectElement.selectedIndex];
             var memberId = selectedOption.value;
             var hiddenInput = document.getElementById("authorId");
+            hiddenInput.value = memberId;
+        }
+    </script>
+    <script>
+        function handleAuthorEditChange() {
+            var selectElement = document.getElementById("authorEdit");
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+            var memberId = selectedOption.value;
+            var hiddenInput = document.getElementById("authorIdEdit");
             hiddenInput.value = memberId;
         }
     </script>

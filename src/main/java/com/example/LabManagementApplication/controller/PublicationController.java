@@ -109,4 +109,19 @@ public class PublicationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/editPublication")
+    public RedirectView editPublication(@ModelAttribute("publication") Publication publication, 
+        @RequestParam("image") MultipartFile file, @RequestParam("projectIdEdit") Long projectId, 
+        @RequestParam("authorIdEdit") Long authorId) {
+        Publication publication_ = publicationRepository.getReferenceById(publication.getId());
+        publication_.setTitle(publication.getTitle());
+        publication_.setHeader(publication.getHeader());
+        publication_.setDescription(publication.getDescription());
+        publication_.setPublicationDate(publication.getPublicationDate());
+        publication_.setProject(projectRepository.getReferenceById(projectId));
+        publication_.setAuthor(userRepository.getReferenceById(authorId));
+        publicationService.updatePublication(publication_);
+        return new RedirectView("publicationManagement");
+    }
 }
