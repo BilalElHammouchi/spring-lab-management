@@ -3,6 +3,8 @@ package com.example.LabManagementApplication.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,20 @@ public class PublicationService {
         newPublication.setAuthor(author);
         newPublication = publicationRepository.save(newPublication);
         return newPublication;
+    }
+
+    public void updatePublication(Publication publication) {
+        Publication existingPublication = publicationRepository.findById(publication.getId()).orElse(null);
+        if (existingPublication != null) {
+            existingPublication.setTitle(publication.getTitle());
+            existingPublication.setHeader(publication.getHeader());
+            existingPublication.setDescription(publication.getDescription());;
+            existingPublication.setPublicationDate(publication.getPublicationDate());
+            existingPublication.setAuthor(publication.getAuthor());
+            existingPublication.setProject(publication.getProject());
+            publicationRepository.save(existingPublication);
+        } else {
+            throw new EntityNotFoundException("Publication with ID " + publication.getId() + " not found");
+        }
     }
 }
