@@ -70,6 +70,11 @@ public class WebController {
     @GetMapping("/")
     public String homepage(Model model) {
         addAttributes(model);
+        model.addAttribute("members", userService.getAllEntities());
+        model.addAttribute("projects", projectService.getAllEntities());
+        model.addAttribute("publications", publicationService.getAllEntities());
+        model.addAttribute("resources", resourceService.getAllEntities());
+        model.addAttribute("publicationProjectUser", getPublicationProjectUser());
         return "index";
     }
 
