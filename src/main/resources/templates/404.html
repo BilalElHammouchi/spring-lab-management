@@ -74,16 +74,46 @@
                     <span>Publication Management</span></a>
             </li>
 
-            <li class="nav-item active" th:if="${role == 'admin'}">
+            <li class="nav-item" th:if="${role == 'admin'}">
                 <a class="nav-link" th:href="@{/resourceManagement}">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Resource Management</span></a>
             </li>
 
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/roleManagement}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Role Management</span></a>
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/membersManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Members List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director' || role == 'PhD Student'}">
+                <a class="nav-link" th:href="@{/projectManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Project List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director' || role == 'PhD Student'}">
+                <a class="nav-link" th:href="@{/publicationManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Publication List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/resourceManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Resource List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Professor'}">
+                <a class="nav-link" th:href="@{/projectManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Project List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Professor'}">
+                <a class="nav-link" th:href="@{/publicationManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Publication Management</span></a>
             </li>
 
             <!-- Divider -->

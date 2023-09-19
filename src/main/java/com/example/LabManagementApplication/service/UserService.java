@@ -2,6 +2,7 @@ package com.example.LabManagementApplication.service;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,13 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @PostConstruct
+    public void insertAdminIfEmpty() {
+        if (userRepository.count() == 0) {
+            createUser("admin", "admin", "admin", "admin", "admin");
+        }
     }
 
     public Users createUser(String firstName, String lastName, String email, String role, String password) {

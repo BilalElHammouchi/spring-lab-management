@@ -67,4 +67,15 @@ public class ResourceController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping("/editResource")
+    public RedirectView editResource(@ModelAttribute("resource") Resource resource, 
+        @RequestParam("image") MultipartFile file) {
+        Resource resource_ = resourceRepository.getReferenceById(resource.getId());
+        resource_.setName(resource.getName());
+        resource_.setDescription(resource.getDescription());
+        resource_.setAvailability(resource.getAvailability());
+        resourceService.updateResource(resource_);
+        return new RedirectView("resourceManagement");
+    }
 }

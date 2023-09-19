@@ -151,10 +151,28 @@
                     <span>Resource Management</span></a>
             </li>
 
-            <li class="nav-item" th:if="${role == 'admin'}">
-                <a class="nav-link" th:href="@{/roleManagement}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Role Management</span></a>
+            <li class="nav-item active" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/membersManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Members List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director' || role == 'PhD Student'}">
+                <a class="nav-link" th:href="@{/projectManagement}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Project List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director' || role == 'PhD Student'}">
+                <a class="nav-link" th:href="@{/publicationManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Publication List</span></a>
+            </li>
+
+            <li class="nav-item" th:if="${role == 'Laboratory Director'}">
+                <a class="nav-link" th:href="@{/resourceManagement}">
+                    <i class="fas fa-fw fa-envelope-square"></i>
+                    <span>Resource List</span></a>
             </li>
 
             <!-- Divider -->
@@ -220,7 +238,7 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Members Management</h1>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        <button th:if="${role == 'admin'}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                             <i class="fas fa-fw fa-plus"></i>
                         </button>
                     </div>
@@ -337,7 +355,7 @@
                                           <th scope="col">First Name</th>
                                           <th scope="col">Last Name</th>
                                           <th scope="col">Role</th>
-                                          <th scope="col">Edit</th>
+                                          <th scope="col" th:if="${role == 'admin'}">Edit</th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -346,7 +364,7 @@
                                             <td th:text="${member.getFirstName()}"></td>
                                             <td th:text="${member.getLastName()}"></td>
                                             <td th:text="${member.getRole()}"></td>
-                                            <td style="vertical-align: middle;">
+                                            <td style="vertical-align: middle;" th:if="${role == 'admin'}">
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-primary btn-sm rounded" th:attr="onclick='openEditModal(\'' + ${member.getId()} + '\')'" style="margin-right: 10px;">
                                                         Edit
