@@ -1,6 +1,7 @@
 package com.example.LabManagementApplication.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.LabManagementApplication.model.Resource;
+import com.example.LabManagementApplication.repository.ResourceRepository;
 import com.example.LabManagementApplication.service.FileUploadService;
 import com.example.LabManagementApplication.service.ResourceService;
 
@@ -19,6 +21,9 @@ public class ResourceController {
  
     @Autowired
     private ResourceService resourceService;
+
+    @Autowired
+    private ResourceRepository resourceRepository;
 
     @PostMapping("/addResource")
     public RedirectView addResource(@ModelAttribute("resource") Resource resource, 
@@ -34,6 +39,17 @@ public class ResourceController {
             String fileName = "resource_"+String.valueOf(newResource.getId())+extension;
             FileUploadService.saveFile(PublicationController.UPLOAD_DIRECTORY, fileName, file);
         }
+        return new RedirectView("resourceManagement");
+    }
+
+    @PostMapping("/deleteResource")
+    public RedirectView deleteResource(@RequestParam("resourceId") Long resourceId) {
+        Optional<Resource> resourceToDelete = resourceRepository.findById(resourceId);
+
+        if(resourceToDelete.isPresent()){
+            resourceRepository.deleteById(resourceId);
+        }
+
         return new RedirectView("resourceManagement");
     }
 }
