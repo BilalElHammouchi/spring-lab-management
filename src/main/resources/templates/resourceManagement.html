@@ -17,8 +17,80 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .intro {
+            height: 70% !important;
+        }
+
+        table th {
+            background-color: #002d72 !important;
+            color: white;
+        }
+
+        table td {
+            max-width: 300px !important; 
+            white-space: nowrap !important; 
+            overflow: hidden !important; 
+            text-overflow: ellipsis !important;
+        }
+        table th {
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+        }
+
+        th, td {
+            text-align: center !important;
+        }
+
+        thead th {
+            color: #fff !important;
+        }
+
+        .card {
+            border-radius: .5rem !important;
+        }
+
+        .table-scroll {
+            border-radius: .5rem !important;
+            max-height: 450px !important;
+            overflow-y: auto !important;
+        }
+
+        .table-scroll table thead th {
+            font-size: 1.25rem !important;
+        }
+        thead {
+            top: 0 !important;
+            position: sticky !important;
+        }
+        .form-check .form-check-input {
+            width: 20em !important;
+            height: 2.0em !important;
+        }
+
+        .form-check .form-check-input:checked::before {
+            width: 15em;
+            height: 1.5em;
+        }
+
+        .red-rectangle {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+        }
+
+        .green-rectangle {
+            width: 30px;
+            height: 30px;
+            background-color: green;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -147,13 +219,104 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Resource Management</h1>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            <i class="fas fa-fw fa-plus"></i>
                     </div>
 
                 </div>
                 <!-- /.container-fluid -->
 
             </div>
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add a Resource</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addResourceForm" th:action="@{/addResource}" th:object="${resource}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" th:field="*{name}" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea th:field="*{description}" class="form-control" id="description" name="description" rows="4" cols="50" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="availability">Availability:</label>
+                                    <div class="form-check form-switch d-flex justify-content-center">
+                                        <input class="form-check-input" type="checkbox" th:field="*{availability}" id="availability" name="availability" checked>
+                                    </div>
+                                </div>                                
+                                <div class="form-group">
+                                    <label for="Image">Image:</label>
+                                    <input type="file" name="image" accept="image/*" id="image" class="form-control-file">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" onclick="refreshPage()">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section class="intro">
+                <div class="bg-image h-100" style="background-color: #f5f7fa;">
+                <div class="mask d-flex align-items-center h-100">
+                    <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                        <div class="card">
+                            <div class="card-body p-0">
+                            <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                <table class="table table-striped mb-0">
+                                <thead style="background-color: #002d72;">
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Availability</th>
+                                    <th scope="col">Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="r : ${resources}">
+                                        <td th:text="${r.getName()}"></td>
+                                        <td th:text="${r.getDescription()}"></td>
+                                        <td style="display: flex; justify-content: center; align-items: center;">
+                                            <div th:if="${r.getAvailability()}" class="green-rectangle"></div>
+                                            <div th:unless="${r.getAvailability()}" class="red-rectangle"></div>
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm rounded" th:attr="onclick='openEditModal(\'' + ${r.getId()} + '\')'" style="margin-right: 10px;">
+                                                    Edit
+                                                </button>
+                                                <form th:action="@{/deleteResource}" method="post">
+                                                    <input type="hidden" th:name="resourceId" th:value="${r.getId()}" />
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="refreshPage()">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </section>
             <!-- End of Main Content -->
 
             <!-- Footer -->
@@ -206,13 +369,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
