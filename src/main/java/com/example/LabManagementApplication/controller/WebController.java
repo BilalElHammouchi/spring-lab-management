@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.LabManagementApplication.model.Project;
 import com.example.LabManagementApplication.model.Publication;
+import com.example.LabManagementApplication.model.Resource;
 import com.example.LabManagementApplication.model.Users;
 import com.example.LabManagementApplication.repository.UserRepository;
 import com.example.LabManagementApplication.service.ProjectService;
 import com.example.LabManagementApplication.service.PublicationService;
+import com.example.LabManagementApplication.service.ResourceService;
 import com.example.LabManagementApplication.service.UserService;
 
 
@@ -23,19 +25,19 @@ import com.example.LabManagementApplication.service.UserService;
 public class WebController {
 
     @Autowired
-    UserRepository userRepository;
-
-    private final UserService userService;
-    private final ProjectService projectService;
-    private final PublicationService publicationService;
+    private UserRepository userRepository;
 
     @Autowired
-    public WebController(UserService userService, ProjectService projectService, PublicationService publicationService) {
-        this.userService = userService;
-        this.projectService = projectService;
-        this.publicationService = publicationService;
-    }
+    private UserService userService;
 
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private PublicationService publicationService;
+
+    @Autowired
+    private ResourceService resourceService;
 
     private void addAttributes(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -101,6 +103,8 @@ public class WebController {
     @GetMapping("/resourceManagement")
     public String resourceManagement(Model model) {
         addAttributes(model);
+        model.addAttribute("resources", resourceService.getAllEntities());
+        model.addAttribute("resource", new Resource());
         return "resourceManagement";
     }
 
@@ -113,15 +117,5 @@ public class WebController {
     @GetMapping("/register")
     public String register() {
         return "register";
-    }
-
-    @GetMapping("/buttons")
-    public String buttons() {
-        return "buttons";
-    }
-
-    @GetMapping("/cards")
-    public String cards() {
-        return "cards";
     }
 }

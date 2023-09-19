@@ -18,49 +18,79 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
+    
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <style>
-        .datepicker {
-            background-color: #2e55c7;
-            color: white;
-        }
         .intro {
-            height: 70%;
+            height: 70% !important;
+        }
+
+        table th {
+            background-color: #002d72 !important;
+            color: white;
         }
 
         table td {
-            max-width: 300px; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis;
+            max-width: 300px !important; 
+            white-space: nowrap !important; 
+            overflow: hidden !important; 
+            text-overflow: ellipsis !important;
         }
         table th {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+        }
+
+        th, td {
+            text-align: center !important;
         }
 
         thead th {
-            color: #fff;
+            color: #fff !important;
         }
 
         .card {
-            border-radius: .5rem;
+            border-radius: .5rem !important;
         }
 
         .table-scroll {
-            border-radius: .5rem;
-            max-height: 450px;
-            overflow-y: auto;
+            border-radius: .5rem !important;
+            max-height: 450px !important;
+            overflow-y: auto !important;
         }
 
         .table-scroll table thead th {
-            font-size: 1.25rem;
+            font-size: 1.25rem !important;
         }
         thead {
-            top: 0;
-            position: sticky;
+            top: 0 !important;
+            position: sticky !important;
+        }
+        .form-check .form-check-input {
+            width: 20em !important;
+            height: 2.0em !important;
+        }
+
+        .form-check .form-check-input:checked::before {
+            width: 15em;
+            height: 1.5em;
+        }
+
+        .red-rectangle {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+        }
+
+        .green-rectangle {
+            width: 30px;
+            height: 30px;
+            background-color: green;
         }
     </style>
 </head>
