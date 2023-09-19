@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,5 +55,16 @@ public class ResourceController {
         }
 
         return new RedirectView("resourceManagement");
+    }
+
+    @GetMapping("/getResourceById/{id}")
+    public ResponseEntity<Resource> getResourceById(@PathVariable Long id) {
+        Optional<Resource> resource = resourceRepository.findById(id);
+        
+        if (resource.isPresent()) {
+            return new ResponseEntity<>(resource.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

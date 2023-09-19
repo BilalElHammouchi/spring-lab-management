@@ -1,7 +1,9 @@
 package com.example.LabManagementApplication.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -9,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.LabManagementApplication.model.Project;
 import com.example.LabManagementApplication.model.Publication;
@@ -47,11 +50,19 @@ public class WebController {
         model.addAttribute("last_name", user.getLastName());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("role", user.getRole());
+        model.addAttribute("membersAmount", userService.getAllEntities().size());
+        model.addAttribute("projectsAmount", projectService.getAllEntities().size());
+        model.addAttribute("publicationsAmount", publicationService.getAllEntities().size());
+        model.addAttribute("resourcesAmount", resourceService.getAllEntities().size());
     }
 
     @GetMapping("/index")
     public String index(Model model) {
         addAttributes(model);
+        model.addAttribute("members", userService.getAllEntities());
+        model.addAttribute("projects", projectService.getAllEntities());
+        model.addAttribute("publications", publicationService.getAllEntities());
+        model.addAttribute("resources", resourceService.getAllEntities());
         return "index";
     }
 
@@ -79,6 +90,26 @@ public class WebController {
         model.addAttribute("members", members);
         model.addAttribute("user", new Users());
         return "membersManagement";
+    }
+
+    @GetMapping("/getAllData")
+    @ResponseBody
+    public Map<String, List<?>> getMembers() {
+        Map<String, List<?>> result = new HashMap<>();
+        result.put("members", userService.getAllEntities());
+        result.put("projects", projectService.getAllEntities());
+        result.put("publications", publicationService.getAllEntities());
+        List<Map<String, Long>> publicationProjectUser = new ArrayList<>();
+        for (Publication publication : publicationService.getAllEntities()) {
+            Map<String, Long> entry = new HashMap<>();
+            entry.put("publicationId", publication.getId());
+            entry.put("projectId", publication.getProject().getId());
+            entry.put("authorId", publication.getAuthor().getId());
+            publicationProjectUser.add(entry);
+        }
+        result.put("publicationProjectUser", publicationProjectUser);
+        result.put("resources", resourceService.getAllEntities());
+        return result;
     }
 
     @GetMapping("/projectManagement")
