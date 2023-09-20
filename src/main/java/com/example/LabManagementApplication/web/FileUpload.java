@@ -1,10 +1,10 @@
-package com.example.LabManagementApplication.service;
+package com.example.LabManagementApplication.web;
 
 import java.io.*;
 import java.nio.file.*;
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileUploadService {
+public class FileUpload {
 
     public static void saveFile(String uploadDir, String fileName,
         MultipartFile multipartFile) throws IOException {

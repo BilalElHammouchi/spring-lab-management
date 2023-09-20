@@ -1,4 +1,4 @@
-package com.example.LabManagementApplication.repository;
+package com.example.LabManagementApplication.web;
 
 import com.example.LabManagementApplication.model.Publication;
 

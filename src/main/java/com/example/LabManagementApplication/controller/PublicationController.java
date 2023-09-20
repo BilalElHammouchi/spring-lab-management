@@ -22,10 +22,10 @@ import com.example.LabManagementApplication.model.Publication;
 import com.example.LabManagementApplication.model.Users;
 import com.example.LabManagementApplication.repository.ProjectRepository;
 import com.example.LabManagementApplication.repository.PublicationRepository;
-import com.example.LabManagementApplication.repository.PublicationResponseDTO;
 import com.example.LabManagementApplication.repository.UserRepository;
-import com.example.LabManagementApplication.service.FileUploadService;
 import com.example.LabManagementApplication.service.PublicationService;
+import com.example.LabManagementApplication.web.FileUpload;
+import com.example.LabManagementApplication.web.PublicationResponseDTO;
 
 @RestController
 public class PublicationController {
@@ -74,7 +74,7 @@ public class PublicationController {
             int lastIndex = file.getOriginalFilename().lastIndexOf(".");
             String extension = "."+file.getOriginalFilename().substring(lastIndex + 1);
             String fileName = "publication_"+String.valueOf(newPublication.getId())+extension;
-            FileUploadService.saveFile(UPLOAD_DIRECTORY, fileName, file);
+            FileUpload.saveFile(UPLOAD_DIRECTORY, fileName, file);
         }
         return new RedirectView("publicationManagement");
     }

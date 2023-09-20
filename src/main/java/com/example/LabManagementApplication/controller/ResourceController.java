@@ -17,8 +17,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.LabManagementApplication.model.Resource;
 import com.example.LabManagementApplication.repository.ResourceRepository;
-import com.example.LabManagementApplication.service.FileUploadService;
 import com.example.LabManagementApplication.service.ResourceService;
+import com.example.LabManagementApplication.web.FileUpload;
 
 @RestController
 public class ResourceController {
@@ -41,7 +41,7 @@ public class ResourceController {
             int lastIndex = file.getOriginalFilename().lastIndexOf(".");
             String extension = "."+file.getOriginalFilename().substring(lastIndex + 1);
             String fileName = "resource_"+String.valueOf(newResource.getId())+extension;
-            FileUploadService.saveFile(PublicationController.UPLOAD_DIRECTORY, fileName, file);
+            FileUpload.saveFile(PublicationController.UPLOAD_DIRECTORY, fileName, file);
         }
         return new RedirectView("resourceManagement");
     }
