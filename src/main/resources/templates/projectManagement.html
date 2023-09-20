@@ -184,12 +184,6 @@
                         <i class="fas fa-fw fa-envelope-square"></i>
                         <span>Publication List</span></a>
                 </li>
-    
-                <li class="nav-item" th:if="${role == 'Laboratory Director'}">
-                    <a class="nav-link" th:href="@{/resourceManagement}">
-                        <i class="fas fa-fw fa-envelope-square"></i>
-                        <span>Resource List</span></a>
-                </li>
 
                 <li class="nav-item active" th:if="${role == 'Professor'}">
                     <a class="nav-link" th:href="@{/projectManagement}">

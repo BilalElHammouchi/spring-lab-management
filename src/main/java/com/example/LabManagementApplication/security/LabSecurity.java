@@ -63,7 +63,7 @@ public class LabSecurity extends WebSecurityConfigurerAdapter {
           .and()
         .authorizeRequests()
           .antMatchers("/resourceManagement")
-          .hasAnyRole("admin", "Laboratory Director")
+          .hasAnyRole("admin")
           .and()
         .authorizeRequests()
           .antMatchers("/create-user")
