@@ -11,12 +11,12 @@ The Research Laboratory Management Application is a web-based platform designed 
 ## Table of Contents
 
 - [Technologies Used](#technologies-used)
+- [Showcase](#showcase)
 - [Project Structure](#project-structure)
 - [Key Features and Components](#key-features-and-components)
 - [Getting Started](#getting-started)
 - [User Roles and Permissions](#user-roles-and-permissions)
-- [Contributing](#contributing)
-- [License](#license)
+- [Acknowledgments](#acknowledgments)
 
 ## Technologies Used
 
@@ -59,18 +59,30 @@ The Research Laboratory Management Application is a web-based platform designed 
 ## Project Structure
 
 src/main/java:
+
 ├── com.example.labmanagement: Root package.
+
 ├── controller: Spring MVC controllers to handle web requests.
+
 ├── model: Hibernate feature classes representing tables in the database.
+
 ├── repository: Spring Data JPA repository interfaces for database operations.
+
 ├── service: Business logic and services.
+
 ├── security: Security configurations for user authentication.
+
 ├── web: Configurations specific to the web application.
+
 ├── LabManagementApplication.java: The main class of the application.
 
+
 src/main/resources:
+
 ├── application.properties: Configuring database connection, Spring Boot settings, and more.
+
 ├── static: Static resources such as CSS, JavaScript, and images.
+
 ├── templates: Thymeleaf templates for dynamic views.
 
 
