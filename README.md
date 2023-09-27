@@ -1,6 +1,8 @@
 # Research Laboratory Management Application
 
-![Project Logo](![_84d118e5-180e-4713-affe-62eb84b4398f-removebg-preview](https://github.com/GoldenDovah/spring-lab-management/assets/19519174/3f9af658-8ec8-455f-b0e3-69c6c61a5fba))
+<p align="center">
+  <img src="https://github.com/GoldenDovah/spring-lab-management/assets/19519174/cd8a1d2a-b937-4b40-a1ad-aa83d46491ed" alt="Image Description">
+</p>
 
 ## Project Description
 
@@ -29,7 +31,7 @@ The Research Laboratory Management Application is a web-based platform designed 
 ### Login Page
 ![sign in](https://github.com/GoldenDovah/spring-lab-management/assets/19519174/d78c4e2a-1830-415d-bce5-24df3d5de54b)
 
-### Sign up page
+### Sign up Page
 ![signup](https://github.com/GoldenDovah/spring-lab-management/assets/19519174/235716cf-ddb6-4d24-ab33-dfdfd434dfcd)
 
 ### Adding Members
